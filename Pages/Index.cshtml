@@ -4,7 +4,357 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div id="top"></div>
+<section class="hero">
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <h1 class="text-xxl-center">Shri Suchi Foods</h1>
+            <h1>Pure. Fresh. Natural.</h1>
+            <p>Premium Quality Grains & Atta for Every Home</p>
+            <a href="#products" class="btn-primary">Explore Products</a>
+        </div>
+    </div>
+</section>
+<!----------------------------- Products --------------------------------------------->
+<section id="products" class="products-section">
+    <div class="container">
+        <h2 class="section-title">Our Premium Products</h2>
+        <h2>Atta/Flour/పిండి</h2>
+        <div class="row">
+            <div class="products-grid">
+
+                <div class="product-card">
+                    <img src="~/img/labels/Multigrain_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Multigrain_Atta_1kg.png" alt="Multi Grain Atta" />
+                    <h3>Multi Grain Atta</h3>
+                    <p>Healthy blend of 5 natural grains</p>
+                    <span class="price">₹75/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/Wheat_Grain_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Wheatgrain_Atta_1kg.png" alt="Wheat Atta" />
+                    <h3>Wheat Atta</h3>
+                    <p>Freshly milled pure wheat</p>
+                    <span class="price">₹50/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/_Jowar_Grain_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Jowargrain_Atta_1kg.png" alt="Jowari Flourr" />
+                    <h3>Jowari Flour</h3>
+                    <p>Rich in calcium & fiber</p>
+                    <span class="price">₹80/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
+        <div class="row">
+            <div class="products-grid">
+
+                <div class="product-card">
+                    <img src="~/img/labels/Ragi_Grain_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Ragigrain_Atta_500g.png" alt="Ragi Flour" />
+                    <h3>Ragi Flour</h3>
+                    <p>Rich in calcium & fiber</p>
+                    <span class="price">₹80/kg</span>
+                    @*        <form method="post" asp-page-handler="AddToCart">
+                        <input type="hidden" name="productId" value="@Model.Product.Id" />
+                        <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form> *@
+                    <span></span> <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/Rice_Grain_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Ricegrain_Atta_500g.png" alt="Rice Atta" />
+                    <h3>Rice Atta</h3>
+                    <p>Freshly milled pure Rice</p>
+                    <span class="price">₹50/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+         
+                <div class="product-card">
+                    <img src="~/img/labels/Maida_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Maida_Atta_500g.png" alt="Maida Flour" />
+                    <h3>Maida Flour</h3>
+                    <p>Rich in calcium & fiber</p>
+                    <span class="price">₹60/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/labels/Bajra_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Bajragrain_Atta_1kg.png" alt="Bajra Atta" />
+                    <h3>Bajra Atta</h3>
+                    <p>Healthy blend of Bajra</p>
+                    <span class="price">₹80/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/Besan_Atta_Label.png" />
+                    <img src="~/img/Products/Atta/Besan_Atta_500g.png" alt="Besan Atta" />
+                    <h3>Premium Besan Atta</h3>
+                    <p>Freshly milled pure Besan</p>
+                    <span class="price">₹100/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="#" />
+                    <img src="#" alt="" />
+                    <h3>More Atta products</h3>
+                    <p>Coming Soon..</p>
+                    <span class="price">₹0/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
+        <h2>Grains</h2>
+        <div class="row">
+            <div class="products-grid">
+
+                <div class="product-card">
+                    <img src="~/img/labels/Idli_Rava_Label.png" />
+                    <img src="~/img/Products/Grains/Idly_Rava_500g.png" alt="Idli Rava" />
+                    <h3>Idli Rava/Rice Semolina</h3>
+                    <p>Healthy blend of Idli Rava</p>
+                    <span class="price">₹60/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/Upma_Rava_Label.png" />
+                    <img src="~/img/Products/Grains/Upma_Rava_500g.png" alt="Upma Rava" />
+                    <h3>Upma Rava/Semolina</h3>
+                    <p>Freshly milled pure Upma Rava/Semolina</p>
+                    <span class="price">₹60/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/labels/kesari Ravva_Label.png" />
+                    <img src="~/img/Products/Grains/Kesari_Rava_500g.png" alt="Kesari Rava" />
+                    <h3>Kesari Rava</h3>
+                    <p>Rich in calcium & fiber</p>
+                    <span class="price">₹60/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
+        <h2>Legumes(Beans, Lentils, Chickpeas, Peas, Soybeans, and Peanuts)</h2>
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/labels/Minapa_UradDal_Label.png" />
+                    <img src="~/img/Products/Pulses/Minapa_UradDal_Product.png" alt="Round Minapa Dal" />
+                    <h3>Round Minapa/UradDal</h3>
+                    <p>Healthy Round Minapa Urad Dal</p>
+                    <span class="price">₹140/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/Labels/Split_Minapa_UradDal_1kg.png" />
+                    <img src="~/img/Products/Pulses/Split_Minapa_500g.png" alt="Split Minapa Dal" />
+                    <h3>Split Minapa Dal</h3>
+                    <p>Healthy Split Minapa Urad Dal</p>
+                    <span class="price">₹140/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/Labels/GroundNuts_Label.png" />
+                    <img src="~/img/Products/Legumes/GroundNuts_500g.png" alt="Ground Nuts" />
+                    <h3>Ground Nuts</h3>
+                    <p>Healthy Ground Nuts</p>
+                    <span class="price">₹200/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
+        <!--Dal--->
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/Labels/Toor_Dal_1kg_Label.png" />
+                    <img src="~/img/Products/Pulses/Toor_Dal_Front_500g.png" alt="Toor Dal" />
+                    <img src="~/img/Products/Pulses/Toor_Dal_Back_500g.png" alt="Toor Dal" />
+                    <h3>Toor Dal</h3>
+                    <p>Ingredient: Split, yellow pigeon peas</p>
+                    <p>Highly nutritious, protein-rich legume</p>
+                    <span class="price">₹150/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/Labels/Chana_Dal_1kg_Label.png" />
+                    <img src="~/img/Products/Pulses/Chana_Dal_Front_500g.png" alt="Chana Dal" />
+                    <img src="~/img/Products/Pulses/Chana_Dal_Back_500g.png" alt="Chana Dal" />
+                    <h3>Chana Dal</h3>
+                    <p>Ingredient: Split, yellow pigeon peas</p>
+                    <p>Highly nutritious, protein-rich legume</p>
+                    <span class="price">₹100/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/labels/Moong_Dal_1kg_Label.png" />
+                    <img src="~/img/Products/Pulses/Moong_Dal_Front_500g.PNG" alt="Moong Dal" />
+                    <h3>Moong Dal</h3>
+                    <p>Healthy Moong Dal</p>
+                    <span class="price">₹130/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                
+            </div>
+        </div>
+        <br /><br />
+        <h2>Cereals</h2>
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/Labels/Thick_Poha_Label.png" />
+                    <img src="~/img/Products/Cereals/Thick_Poha_500g.png" alt="Thick Poha" />
+                    <h3>Thick Poha</h3>
+                    <p>..................</p>
+                    <p>Highly nutritious, protein-rich legume</p>
+                    <span class="price">₹90/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/Labels/Thin_Poha_Label.png" />
+                    <img src="~/img/Products/cereals/Thin_Poha_500g.jpeg" alt="Thin Poha" />
+                    <h3>Thin Poha</h3>
+                    <p>Ingredient: Split, yellow pigeon peas</p>
+                    <p>Highly nutritious, protein-rich legume</p>
+                    <span class="price">₹90/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="#" />
+                    <img src="#" alt="" />
+                    <h3>More Products</h3>
+                    <p>Coming Soon..</p>
+                    <span class="price">₹0/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+        <h3>Spices</h3>
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/Labels/RedChilli_2Star_Label.png" />
+                    <img src="~/img/Products/Spices/2Star_ChilliPowder_500g.jpeg" alt="Chilli Powder" />
+                    <h3>Chilli Powder-2Star</h3>
+                    <p>Premium 2Star</p>
+                    <p>Ingredient: Red Chilli</p>
+                    <p>Spices</p>
+                    <span class="price">₹360/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/Labels/RedChilli_1Star_Label.png" />
+                    <img src="~/img/Products/Spices/1Star_ChilliPowder_500g.PNG" alt="Chilli Powder" />
+                    <h3>Chilli Powder-1Star</h3>
+                    <p>Premium 1Star</p>
+                    <p>Ingredient: Red Chilli</p>
+                    <p>Spices</p>
+                    <span class="price">₹300/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="~/img/Labels/TurmericPowder_Label.png" />
+                    <img src="~/img/Products/Spices/HaldiPowder_500g.jpg" alt="Turmeric Powder" />
+                    <h3>Haldi-Turmeric Powder</h3>
+                    <p>Ingredient: Turmeric Powder</p>
+                    <p>Spices</p>
+                    <span class="price">₹260/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/Labels/DhaniyaPowder_Label.png" />
+                    <img src="~/img/Products/Spices/DhanyaPowder_500g.jpg" alt="Dhaniya Powder" />
+                    <h3>Dhaniya Powder</h3>
+                    <p>Ingredient: Dried Coriander Seeds (Corianrum sativum)</p>
+                    <p>Highly nutritious, protein-rich legume</p>
+                    <span class="price">₹250/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+        <h3>Seeds</h3>
+        <div class="row">
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="~/img/labels/ShriSuchi_Label.png" />
+                    <img src="~/img/Products/Seeds/Sesame_seeds_500g.jpg" alt="Sesame Seeds" />
+                    <h3>Sesame Seeds</h3>
+                    <p>Rich in calcium & fiber</p>
+                    <span class="price">₹200/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+                <div class="product-card">
+                    <img src="~/img/labels/Sabja_Seeds_500g.png" />
+                    <img src="~/img/Products/Seeds/Sabja_seeds_500g.png" alt="Sabja Seeds" />
+                    <img src="~/img/Products/Seeds/Sabja_seeds_back.jpg" alt="Sabja Seeds" />
+                    <h3>Sabja Seeds</h3>
+                    <p>Nutrient-Dense & fiber-rich</p>
+                    <span class="price">₹260/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+
+                <div class="product-card">
+                    <img src="#" />
+                    <img src="#" alt="" />
+                    <h3>More Products</h3>
+                    <p>Coming Soon..</p>
+                    <span class="price">₹0/kg</span>
+                    <a href="tel:+918374499001" class="btn-secondary">Order Now</a>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container about-content">
+        <div class="about-text">
+            <h2>Why Choose Shri Foods?</h2>
+            <p>
+                We deliver farm-fresh grains and premium quality flour directly to your kitchen.
+                No preservatives. No compromise. Just purity and health.
+            </p>
+            <a href="#contact" class="btn-primary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact-section">
+    <div class="container text-center">
+        <h2>Get In Touch</h2>
+        <p>Call: +91 8374499001</p>
+        <p>Email: shripavanb@shrifoods.in</p>
+    </div>
+</section>
+
+
