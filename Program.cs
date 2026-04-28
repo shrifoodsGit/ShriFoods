@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using ShriFoods.Model;
+using ShriFoods.Pages;
+using System.Net;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+
+//Database connection string
+builder.Services.AddDbContext<FoodsDBContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
 var app = builder.Build();
 
