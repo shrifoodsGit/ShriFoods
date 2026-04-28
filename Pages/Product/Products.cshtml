@@ -2,3 +2,52 @@
 @model ShriFoods.Pages.Product.ProductsModel
 @{
 }
+<div>
+    <h2>Our Products </h2>
+    <div class="container-fluid">
+        <section id="products" class="products-section">
+            <div class="container">
+                <h2 class="section-title">Our Premium Products...withDB</h2>
+
+                @foreach (ShriFoods.Model.ProductModel listproduct in Model.listProductModel)
+                {
+                    <br />
+                    <div class="card">
+                        <div class="ride-row ride-card-header">
+                            <h5 class="col-4">
+                                <label>@listproduct.ProductName</label>
+                            </h5>
+                            <h5 class="col-4">
+                            </h5>
+                            <h5 class="col-4">
+                            </h5>
+                        </div>
+                        <div class="row card-body">
+                            <h6 class="col-7">
+                                <img src="" alt="@listproduct.ProductImage" width="43" />
+                            </h6>
+                            <h5 class="col-1"></h5>
+                            <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
+                        </div>
+                        <div class="ride-row ride-card-header">
+                            <h5 class="col-4">
+                            </h5>
+                            <h5 class="col-4" style="text-align:center">
+                                <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@listproduct.ProductQTY
+                            </h5>
+                            <h5 class="col-4">
+                                <a asp-page="./Booking/BookRide" asp-route-id="@listproduct.ProductId">
+                                    <button type="submit" class="btn btn-primary">Add To Cart</button>
+                                </a>
+                            </h5>
+
+               
+                        </div>
+
+                    </div>
+                }
+              
+            </div>
+        </section>
+    </div>
+</div>
