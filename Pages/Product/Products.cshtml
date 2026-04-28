@@ -24,16 +24,15 @@
                         </div>
                         <div class="row card-body">
                             <h6 class="col-7">
-                                <img src="" alt="@listproduct.ProductImage" width="43" />
+                                <img src="@listproduct.ProductImage" alt="@listproduct.ProductImage" width="43" />
                             </h6>
-                            <h5 class="col-1"></h5>
+                            <h5 class="col-1"> Price: </h5>
                             <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
                         </div>
                         <div class="ride-row ride-card-header">
-                            <h5 class="col-4">
-                            </h5>
+                            <h5 class="col-4">Quantity:</h5>
                             <h5 class="col-4" style="text-align:center">
-                                <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@listproduct.ProductQTY
+                                <label></label>@listproduct.ProductQTY
                             </h5>
                             <h5 class="col-4">
                                 <a asp-page="./Booking/BookRide" asp-route-id="@listproduct.ProductId">
