@@ -8,6 +8,7 @@ namespace ShriFoods.Model
             { }
 
         public DbSet<ProductModel> ProductsTb { get; set; }
+        public DbSet<UserModel> UserTb { get; set; }
 
     }
 }
