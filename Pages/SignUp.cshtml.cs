@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriFoods.Model;
+using Twilio;
+using Twilio.Rest.Verify.V2.Service;
 
 namespace ShriFoods.Pages
 {
@@ -8,8 +10,9 @@ namespace ShriFoods.Pages
     {
         private const string smsSent = "Success";
         private readonly FoodsDBContext _dBContext;
+        private readonly IConfiguration _config;
 
-        //public PhoneVerify twilo;
+        public PhoneVerify twilo;
         public List<UserModel> listUserModel = new List<UserModel>();
 
 
@@ -19,20 +22,32 @@ namespace ShriFoods.Pages
         private static readonly Random _random = new Random();
         public int UniqueNumber { get; set; }
 
+
+
+        //Constructor
+        public SignUpModel(FoodsDBContext context, IConfiguration config)
+        {
+            _dBContext = context;
+            _config = config;
+        }
+
+        public void OnGet()
+        {
+        }
         //public PhoneVerify Twilo(string phone)
         //{
         //    if (string.IsNullOrEmpty(phone))
         //    {
         //        return "Invalid"; // Path 1
         //    }
-        //    var accountSid = "AC20a782fc1473c3682b6481adc266e7c9";
-        //    var authToken = "[AuthToken]";
+        //    var accountSid = _config["TwiloConnection.accountSid"];
+        //    var authToken = _config["TwiloConnection.AuthToken"];
         //    TwilioClient.Init(accountSid, authToken);
 
         //    var verification = VerificationResource.Create(
         //        to: phone,//"+918374499001",
         //        channel: "sms",
-        //        pathServiceSid: "VA632db498adb24bbc2a49be09a2fbbf73"
+        //        _config["TwiloConnection.pathServiceSid"]
         //        );
 
         //    Console.WriteLine(verification.Sid);
@@ -40,17 +55,6 @@ namespace ShriFoods.Pages
         //    return smsSent; // Add this
 
         //}
-
-        //Constructor
-        public SignUpModel(FoodsDBContext context)
-        {
-            _dBContext = context;
-        }
-
-        public void OnGet()
-        {
-        }
-
         public IActionResult OnPostUser()
         {
 
