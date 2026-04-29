@@ -1,0 +1,61 @@
+﻿@page
+@model ShriFoods.Pages.Admin.UploadProductsModel
+@{
+}
+<div class="container-fluid">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card p-4 shadow-sm">
+                    <h2 class="text-center mb-4">Upload New Products </h2>
+                    <form method="post" onsubmit="alert('Product uploaded successfully!')">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">Date:</label>
+                            <input type="date" id="last-start-date" class="form-control" name="RideDate" min="01-01-2025"
+                                   max="31-12-2026" placeholder="dd-mm-yyyy" value="@string.Format("{0:dd-MM-yyyy}", Model.LastStartDate)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="From" class="form-label">Product Name:</label>
+                            <input type="text" class="form-control" id="ProductName" name="ProductName" />
+                        </div>
+                        <div class="mb-3">                            
+                            <label for="age" class="form-label">Product Price:</label>
+                            <input type="text" class="form-control" id="ProductPrice" name="ProductPrice" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Product Image" class="form-label">Product Image:</label>
+                            <input type="file" class="form-control" id="ProductImage" name="selectedProductImage" accept="image/*" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Product Weight:</label>
+                            <input type="text" class="form-control" id="ProductWeight" name="ProductWeight" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Product Description:</label>
+                            <input type="text" class="form-control" id="ProductDescription" name="ProductDescription" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Product QTY:</label>
+                            <input type="text" class="form-control" id="ProductQTY" name="ProductQTY" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Product Rating:</label>
+                            <input type="text" class="form-control" id="ProductRating" name="ProductRating" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Product Category:</label>
+                            <input type="text" class="form-control" id="ProductCategory" name="ProductCategory" />
+
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Upload Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br />
