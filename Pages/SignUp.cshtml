@@ -1,0 +1,103 @@
+﻿@page
+@model ShriFoods.Pages.SignUpModel
+@{
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="card p-4 shadow-sm">
+                                <h2 class="text-center mb-4">Sign Up</h2>
+
+                                    <div class="">
+                                        <form method="post" asp-page-handler="User">
+                                            @if (ViewData["Message"] != null)
+                                            {
+                                                <div class="alert alert-info">@ViewData["Message"]</div>
+                                            }
+                                            <div class="mb-3">
+                                                <input id="Role" name="UserRole" value="Driver" style="visibility:hidden" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="firstName" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="UserFirstName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName" name="UserLastName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="age" class="form-label">Age</label>
+                                                <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" min="0" max="99" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email address</label>
+                                                <input type="email" class="form-control" id="email" name="UserEmail" aria-describedby="emailHelp">
+                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="UserAddress" class="form-label">Address</label>
+                                                <input type="text" class="form-control" id="UserAddress" name="UserAddress" aria-describedby="Address" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contact" class="form-label">Contact</label>
+                                                <input type="text" class="form-control" id="contact" name="UserContact" aria-describedby="contact" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" name="UserPswd" id="password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
+                                                <span id="message"></span>
+                                            </div>
+                                            <br />
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert">Sign Up</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script>
+                function checkMatches() {
+                    const password = document.getElementById('password').value;
+                    const confirm = document.getElementById('confirm_password').value;
+                    const message = document.getElementById('message');
+
+                    if (password === confirm) {
+                      message.innerHTML = 'Matching';
+                      message.style.color = 'green';
+                    } else {
+                      message.innerHTML = 'Not Matching';
+                      message.style.color = 'red';
+                    }
+                  }
+
+                  /*--------------Pop up Message---------------------*/
+                      //  const form = document.querySelector('form');
+                      // const message = document.querySelector('#success-message');
+                      // form.addEventListener('submit', (e) => {
+                      //   e.preventDefault(); // Prevents page reload
+                      //   message.style.display = 'block'; // Shows the message
+                      // });
+        </script>
+
+        @if (ViewData["Message"] != null)
+        {
+            <script type="text/javascript">
+                    document.onload = function () {
+                    alert("@ViewData["Message"]");
+                    };
+            </script>
+        }
+    </div>
+}

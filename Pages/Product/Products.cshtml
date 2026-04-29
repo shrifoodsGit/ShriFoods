@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <section id="products" class="products-section">
             <div class="container">
-                <h2 class="section-title">Our Premium Products...withDB</h2>
+                <h2 class="section-title">Our Premium Products</h2>
 
                 @foreach (ShriFoods.Model.ProductModel listproduct in Model.listProductModel)
                 {
@@ -24,8 +24,11 @@
                         </div>
                         <div class="row card-body">
                             <h6 class="col-7">
-                                <img src="@listproduct.ProductImage" alt="@listproduct.ProductImage" width="43" />
-                            </h6>
+                                @if (!string.IsNullOrEmpty(Model.ImageBase64))
+                                {
+                                    <img src="data:image/jpeg;base64,@Model.ImageBase64" alt="Database Image" width="200px"  height="200px"/>
+                                }
+                             </h6>
                             <h5 class="col-1"> Price: </h5>
                             <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
                         </div>
