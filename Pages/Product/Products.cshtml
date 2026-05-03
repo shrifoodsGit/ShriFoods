@@ -2,11 +2,12 @@
 @model ShriFoods.Pages.Product.ProductsModel
 @{
 }
+<link href="~/css/products.css" rel="stylesheet" />
 <div>
     <h2>Our Products </h2>
     <div class="container-fluid">
         <section id="products" class="products-section">
-            <div class="container">
+            <div class="container-fluid">
                 <h2 class="section-title">Our Premium Products</h2>
 
                 @foreach (ShriFoods.Model.ProductModel listproduct in Model.listProductModel)
@@ -23,31 +24,50 @@
                             </h5>
                         </div>
                         <div class="row card-body">
-                            <h6 class="col-7">
+                            <h6 class="col-6">
                                 @if (!string.IsNullOrEmpty(Model.ImageBase64))
                                 {
                                     <img src="data:image/jpeg;base64,@Model.ImageBase64" alt="Database Image" width="200px"  height="200px"/>
                                 }
                              </h6>
-                            <h5 class="col-1"> Price: </h5>
-                            <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
+                            <h5 class="col-3"> Price: </h5>
+                            <h5 class="col-3"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
                         </div>
-                        <div class="ride-row ride-card-header">
-                            <h5 class="col-4">Quantity:</h5>
+                        <div class="ride-row ride-card-footer">
+                            <h5 class="col-4">Ava Qty:  <label>@listproduct.ProductQTY</label></h5>
                             <h5 class="col-4" style="text-align:center">
-                                <label></label>@listproduct.ProductQTY
+                                <form method="post" asp-route-id="@listproduct.ProductUniqueId">
+                                    <div class="quantity-selector">
+                                        <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
+                                        <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
+                                        <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
+                                    </div>
+                                  
+                                        <button type="submit" class="btn btn-primary">Add To Cart</button>
+                       
+                                </form>
                             </h5>
                             <h5 class="col-4">
-                                <a asp-page="./Booking/BookRide" asp-route-id="@listproduct.ProductId">
-                                    <button type="submit" class="btn btn-primary">Add To Cart</button>
-                                </a>
+                      
                             </h5>
 
                
                         </div>
-
                     </div>
                 }
+                <script>
+                                     function changeQuantity(amount) {
+                                     const input = document.getElementById('quantityInput');
+                                     let currentValue = parseInt(input.value) || 0;
+                                     let newValue = currentValue + amount;
+    
+                                     // Ensure the value does not go below the minimum
+                                     if (newValue >= parseInt(input.min)) {
+                                     input.value = newValue;
+                                     }
+                                     }
+                </script>
+
               
             </div>
         </section>
