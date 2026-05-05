@@ -23,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="./Product/Products">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Product/Products">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="./Contact">ContactUs</a>
@@ -35,19 +35,63 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SignIn">SignIn</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/SignIn"><span id="signinBtn">SignIn</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SignUp">SignUp</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/SignUp"><span id="signupBtn">SignUp</span></a>
                         </li>
 
                     </ul>
                 </div>
+                <div class="row-3">
+                    <p>Welcome:<span id="userName">@Context.Session.GetString("session_UserName")</span></p>
+                    @if (@Context.Session.GetString("session_UserRole") =="Cust")
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Customer/CustProfile"><span id="riderprofileBtn">MyProfile</span></a>
+                    }
+                    else if (@Context.Session.GetString("session_UserRole") =="Admin")
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/AdDashboard"><span id="riderprofileBtn">MyProfile</span></a>
+                    }
+                    <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
+                    @{
+                        var username = @Context.Session.GetString("session_UserName");
+                    }
+                    @if (!string.IsNullOrEmpty(username))
+                    {
+                        Console.WriteLine("SessionVissible:"+username);
+                        <script>
+                                                /*-SigOutButton---*/
+                                                document.getElementById("userName").style.visibility ="visible";
+                                                document.getElementById("riderprofileBtn").style.visibility ="visible";
+                                                document.getElementById("signoutBtn").style.visibility ="visible";
+
+                                                /*--SigUpButton--& SignInButton-Hidden-*/
+                                                document.getElementById("signupBtn").style.visibility ="hidden";
+                                                document.getElementById("signinBtn").style.visibility ="hidden";
+                        </script>
+                    }
+                    else
+                    {
+                        Console.WriteLine("Session****:"+username);
+                        <script>
+                                                /*-SigOutButton---*/
+                                                document.getElementById("signoutBtn").style.visibility ="hidden";
+                                                document.getElementById("riderprofileBtn").style.visibility ="hidden";
+                                                document.getElementById("userName").innerText = "Guest";
+
+                                                /*--SigUpButton---*/
+                                                document.getElementById("signupBtn").style.visibility ="visible";
+                                                document.getElementById("signinBtn").style.visibility ="visible";
+                        </script>
+                    }
+                  
+                </div>
                 <div class="nav-contact">
                     <a href="tel:+918374499001" class="call-btn">📞 Call Now</a>
                 </div>
-
-                <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+@* 
+                <div class="menu-toggle" onclick="toggleMenu()">☰</div> *@
             </div>
         </nav>
     </header>

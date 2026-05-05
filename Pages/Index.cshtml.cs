@@ -14,7 +14,8 @@ namespace ShriFoods.Pages
 
         public void OnGet()
         {
-
+            //Creating a session variable 
+            string userValue = HttpContext.Session.GetString("session_UserName");
         }
     }
 }

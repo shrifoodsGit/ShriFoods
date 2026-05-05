@@ -12,10 +12,10 @@ namespace ShriFoods.Pages.Product
         private readonly FoodsDBContext _dBContext;
         public List<ProductModel> listProductModel = new List<ProductModel>();
 
-        public List<CartItem> listCartItemModel = new List<CartItem>();
+        public List<CartItemModel> listCartItemModel = new List<CartItemModel>();
 
         [BindProperty]
-        public CartItem cartItemModel { get; set; }
+        public CartItemModel cartItemModel { get; set; }
 
 
         public string ImageBase64 { get; set; }
