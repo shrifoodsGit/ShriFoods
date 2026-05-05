@@ -36,7 +36,7 @@
                         <div class="ride-row ride-card-footer">
                             <h5 class="col-4">Ava Qty:  <label>@listproduct.ProductQty</label></h5>
                             <h5 class="col-4" style="text-align:center">
-                                <form method="post" asp-route-id="@listproduct.ProductUniqueId">
+                                <form method="post" asp-route-id="@listproduct.ProductId">
                                     <div class="quantity-selector">
                                         <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
                                         <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
@@ -55,21 +55,22 @@
                         </div>
                     </div>
                 }
-                <script>
-                                     function changeQuantity(amount) {
-                                     const input = document.getElementById('quantityInput');
-                                     let currentValue = parseInt(input.value) || 0;
-                                     let newValue = currentValue + amount;
-    
-                                     // Ensure the value does not go below the minimum
-                                     if (newValue >= parseInt(input.min)) {
-                                     input.value = newValue;
-                                     }
-                                     }
-                </script>
+
 
               
             </div>
         </section>
     </div>
 </div>
+<script>
+    function changeQuantity(amount) {
+    const input = document.getElementById('quantityInput');
+    let currentValue = parseInt(input.value) || 0;
+    let newValue = currentValue + amount;
+    
+    // Ensure the value does not go below the minimum
+    if (newValue >= parseInt(input.min)) {
+    input.value = newValue;
+    }
+    }
+</script>
