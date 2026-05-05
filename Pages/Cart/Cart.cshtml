@@ -6,7 +6,7 @@
 
     <div class="container">
         <h3>Your Cart items </h3>
-
+        <br />
         <table class="table table-striped">
             <thead>
                 <tr class="table-hover">
@@ -15,6 +15,7 @@
                     <th scope="col">ProductUniqueId</th>
                     <th scope="col">ProductPrice</th>
                     <th scope="col">ProductQty</th>
+                    <th scope="col">Total</th>
  
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                         <td>@cartItems.ProductUniqueId</td>
                         <td>@cartItems.ProductPrice</td>
                         <td>@cartItems.ProductQty</td>
+                        <td>@cartItems.CartTotal</td>
                         <td>
                             <!-- Delete form targeting the 'OnPostDelete' handler -->
                             <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
@@ -42,8 +44,16 @@
                 }
             </tbody>
         </table>
-
-          
+        <br />
+        <div class="row">
+            <button class="col-6">
+                <a>Continue Shopping</a>
+            </button>
+            <button class="col-6">
+                <a>CheckoutNow</a>
+            </button>
+        </div>
+       
     </div>
 
 </div>

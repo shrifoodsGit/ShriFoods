@@ -46,6 +46,7 @@ namespace ShriFoods.Pages.Cart
             //}
 
             //cartItems list display   
+            if (_dbContext.CartItemTb.ToList()!=null) { 
             list_CartItemModel = _dbContext.CartItemTb.ToList();
             foreach (var cartItems in list_CartItemModel)
             {
@@ -57,6 +58,7 @@ namespace ShriFoods.Pages.Cart
                     //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }
 
+            }
             }
         }
     }

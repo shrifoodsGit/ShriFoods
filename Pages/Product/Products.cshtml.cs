@@ -89,13 +89,22 @@ namespace ShriFoods.Pages.Product
 
 
                     int totalproductamount = int.Parse(productSelected.ProductPrice);
+
                     newcartItemModel.ProductId = id.ToString();
+                    newcartItemModel.ProductUniqueId = productSelected.ProductUniqueId;
                     newcartItemModel.ProductQty = result.ToString();
                     newcartItemModel.ProductName = productSelected.ProductName;
-                    newcartItemModel.ProductPrice = (totalproductamount*result).ToString();
-                    newcartItemModel.ProductUniqueId = productSelected.ProductUniqueId;
+                    newcartItemModel.ProductPrice = productSelected.ProductPrice;
+                    newcartItemModel.ProductWeight = productSelected.ProductWeight;
+                    //newcartItemModel.ProductDescription = productSelected.ProductDescription;
+                    //newcartItemModel.ProductImage = productSelected.ProductImage;
+          
                     newcartItemModel.UserUniqueId =session_UserUniqueId;
                     newcartItemModel.UserFirstName = session_userName;
+                    newcartItemModel.CartTotal = (totalproductamount*result).ToString();
+
+
+
 
                     //Store shopped products into Cart 
                     _dBContext.CartItemTb.Add(newcartItemModel);
