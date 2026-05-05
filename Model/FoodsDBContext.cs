@@ -9,6 +9,8 @@ namespace ShriFoods.Model
 
         public DbSet<ProductModel> ProductsTb { get; set; }
         public DbSet<UserModel> UserTb { get; set; }
+        public DbSet<CartItemModel> CartItemTb { get; set; }
+        public DbSet<OrdersModel> OrderTb { get; set; }
 
     }
 }

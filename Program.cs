@@ -8,10 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddControllers();
 
 //Database connection string
 builder.Services.AddDbContext<FoodsDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
+
+//Session
+builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);//Set Session timeout 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential= true;
+});
 
 var app = builder.Build();
 
@@ -23,6 +33,12 @@ if (!app.Environment.IsProduction())
     app.UseHsts();
 }
 
+// Enable session middleware
+app.UseSession(); 
+
+//Number of Site visitors
+app.UseMiddleware<TrackingMiddleware>();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -30,6 +46,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapRazorPages();
 
 app.Run();

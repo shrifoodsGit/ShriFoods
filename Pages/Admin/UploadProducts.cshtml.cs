@@ -78,7 +78,7 @@ namespace ShriFoods.Pages.Admin
 
             _dbContext.SaveChanges();
 
-            return RedirectToPage("/AdDashboard");
+            return RedirectToPage("/Admin/AdDashboard");
         }
 
         [DataType(DataType.Date)]

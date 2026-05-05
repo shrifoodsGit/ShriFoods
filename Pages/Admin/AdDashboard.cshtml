@@ -4,10 +4,119 @@
 }
 <div>
     <div class="container-fluid">
-        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/UploadProducts">UploadProducts</a>
+        <h2>Welcome to Admin Dashboard</h2>
+        <br />
+        <button><a class="nav-link text-dark" asp-area="" asp-page="/Admin/UploadProducts">UploadProducts</a></button>
     </div>
 
     <div>
 
     </div>
+    <br />
+    <!---------------Products Table------------------------>
+
+    <div class="container-fluid">
+        <h3>Products Table</h3>
+        <table class="table-responsive-md">
+            <thead style="background-color:gold">
+                <th>ProductId</th>
+                <th>ProductUniqueId</th>
+                <th>ProductName</th>
+                <th>ProductPrice</th>
+                <th>RidePrice</th>
+                <th>ProductWeight</th>
+                <th>ProductQty</th>
+                <th>ProductCategory</th>
+                  
+            </thead>
+            <tbody>
+                @foreach (Model.ProductModel productsModel in Model.list_ProductModel)
+                {
+                    <tr>
+                        <td>
+                            @productsModel.ProductId
+                        </td>
+                        <td>
+                            @productsModel.ProductUniqueId
+                        </td>
+                        <td>
+                            @productsModel.ProductName
+                        </td>
+                        <td>
+                            @productsModel.ProductPrice
+                        </td>
+                        <td>
+                            @productsModel.ProductWeight
+                        </td>
+                        <td>
+                            @productsModel.ProductQty
+                        </td>
+                        <td>
+                            @productsModel.ProductCategory
+                        </td>
+                   
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+    <br />
+    <!--------------User Info-------------------------->
+    <div class="container-fluid">
+        <h3>User Table</h3>
+        <table>
+            <thead style="background-color:gold">
+                <th>UserId</th>
+                <th>UserUniqueId</th>
+                <th>UserRegDate</th>
+                <th>UserFirstName</th>
+                <th>UserLastName</th>
+                <th>UserAge</th>
+                <th>UserEmail</th>
+                <th>UserContact</th>
+                <th>UserRole</th>
+
+            </thead>
+            <tbody>
+                @foreach (Model.UserModel userModel in Model.list_UserModel)
+                {
+                    <tr>
+                        <td>
+                            @userModel.UserId
+                        </td>
+                        <td>
+                            @userModel.UserUniqueId
+                        </td>
+                        <td>
+                            @userModel.UserRegDate
+                        </td>
+                        <td>
+                            @userModel.UserFirstName
+                        </td>
+                        <td>
+                            @userModel.UserLastName
+                        </td>
+                        <td>
+                            @userModel.UserAge
+                        </td>
+                        <td>
+                            @userModel.UserEmail
+                        </td>
+                        <td>
+                            @userModel.UserContact
+                        </td>
+                        <td>
+                            @userModel.UserRole
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+    <br />
 </div>

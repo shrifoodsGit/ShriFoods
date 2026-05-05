@@ -39,7 +39,7 @@ namespace ShriFoods.Pages
                     HttpContext.Session.SetString("session_UserEmail", user.UserEmail);
                     HttpContext.Session.SetString("session_UserRole", user.UserRole);
 
-                    if (user.UserRole=="Customer")
+                    if (user.UserRole=="Cust")
                     {
                         //Signin Validated
                         returnpage= RedirectToPage("/Customer/CustProfile");

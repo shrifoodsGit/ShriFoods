@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
@@ -58,8 +59,22 @@ namespace ShriFoods.Pages
         public IActionResult OnPostUser()
         {
 
-            //DriverId
-            NewUserModel.UserId = (_dBContext.UserTb.Max(r => r.UserId))+1;
+            // Returns true if NO data exists in the table
+            bool isTableEmpty = !_dBContext.UserTb.Any();
+            if (isTableEmpty)
+            {
+                NewUserModel.UserId = 1;
+                Console.WriteLine("Table is empty.");
+            }
+            else
+            {
+                // Finds the max Id number and adds +1 to it 
+                var newCustId = _dBContext.UserTb.Max(r => r.UserId);
+                NewUserModel.UserId = newCustId+1;
+                Console.WriteLine("Table has data.");
+            }
+
+
 
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
@@ -71,6 +86,7 @@ namespace ShriFoods.Pages
 
 
             NewUserModel.UserUniqueId = UniqueNumber.ToString();
+            NewUserModel.UserRole = "Cust";
 
             // DriverReg Date only 
             NewUserModel.UserRegDate = DateOnly.FromDateTime(DateTime.Today);

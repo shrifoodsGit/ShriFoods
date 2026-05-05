@@ -17,7 +17,7 @@ namespace ShriFoods.Model
         public byte[] ProductImage { get; set; }
         public string ProductWeight { get; set; }
         public string ProductDescription { get; set; }
-        public string ProductQTY { get; set; }
+        public string ProductQty { get; set; }
         public string ProductRating { get; set; }
         public string ProductCategory { get; set; }
 
