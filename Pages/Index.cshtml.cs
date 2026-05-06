@@ -55,7 +55,6 @@ namespace ShriFoods.Pages
                     AttaImageUrls.Add($"/{folderName}/{Path.GetFileName(file)}");
                 }
             }
-
         }
     }
 }

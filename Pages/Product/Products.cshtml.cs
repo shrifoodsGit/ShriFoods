@@ -50,10 +50,7 @@ namespace ShriFoods.Pages.Product
 
         //Saving Product along with quantity to Cart 
         public async Task<IActionResult> OnPostAsync(int id)
-        {
-            
-
-
+        {        
             string session_userName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
             string session_UserContact = HttpContext.Session.GetString("session_UserContact");
