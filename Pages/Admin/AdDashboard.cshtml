@@ -2,6 +2,7 @@
 @model ShriFoods.Pages.Admin.AdDashboardModel
 @{
 }
+<link href="~/css/admin.css" rel="stylesheet" />
 <div>
     <div class="container-fluid">
         <h2>Welcome to Admin Dashboard</h2>
@@ -20,19 +21,18 @@
         <table class="table-responsive-md">
             <thead style="background-color:gold">
                 <th>ProductId</th>
-                <th>ProductUniqueId</th>
+                <th>UniqueId</th>
                 <th>ProductName</th>
-                <th>ProductPrice</th>
-                <th>RidePrice</th>
-                <th>ProductWeight</th>
-                <th>ProductQty</th>
-                <th>ProductCategory</th>
+                <th>Price</th>
+                <th>Weight</th>
+                <th>Qty</th>
+                <th>Category</th>
                   
             </thead>
             <tbody>
                 @foreach (Model.ProductModel productsModel in Model.list_ProductModel)
                 {
-                    <tr>
+                    <tr >
                         <td>
                             @productsModel.ProductId
                         </td>
