@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShriFoods.Pages.Cart
 {
@@ -14,7 +16,7 @@ namespace ShriFoods.Pages.Cart
         public List<CartItemModel> only_CartItemModel = new List<CartItemModel>();
 
         [BindProperty]
-        public CartItemModel updateRecord { get; set; }
+        public CartItemModel updateCartRecord { get; set; }
 
         //Constructor
         public CartModel(FoodsDBContext context)
@@ -23,36 +25,40 @@ namespace ShriFoods.Pages.Cart
         }
 
 
+
         public void OnGet()
         {
+            //Display All selected items 
             string session_UserName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
             string session_UserRole = HttpContext.Session.GetString("session_UserRole");
-            //User profile display
-            listUserModel = _dbContext.UserTb.ToList();
-            foreach (var user in listUserModel)
-            {
-                int index = listUserModel.FindIndex(a => a.UserFirstName == session_UserName);
-                if (user.UserFirstName ==session_UserName)
-                {
-                    //Major Milestone in achiving only wanted list out of selected index
-                    activeUser.Add(listUserModel[index]);
-                }
+            ////User profile display
+            //listUserModel = _dbContext.UserTb.ToList();
+            //foreach (var user in listUserModel)
+            //{
+            //    int index = listUserModel.FindIndex(a => a.UserFirstName == session_UserName);
+            //    if (user.UserFirstName ==session_UserName)
+            //    {
+            //        //Major Milestone in achiving only wanted list out of selected index
+            //        activeUser.Add(listUserModel[index]);
+            //    }
 
-            }
+            //}
 
             //cartItems list display   
+            if (_dbContext.CartItemTb.ToList()!=null) { 
             list_CartItemModel = _dbContext.CartItemTb.ToList();
             foreach (var cartItems in list_CartItemModel)
             {
 
-                if (cartItems.ProductUniqueId ==session_UserUniqueId)
+                if (cartItems.UserUniqueId ==session_UserUniqueId)
                 {
-                    only_CartItemModel = list_CartItemModel.FindAll(a => a.ProductUniqueId == session_UserUniqueId);
+                    only_CartItemModel = list_CartItemModel.FindAll(a => a.UserUniqueId == session_UserUniqueId);
                     //Major Milestone in achiving only wanted list out of selected index
                     //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }
 
+            }
             }
         }
     }

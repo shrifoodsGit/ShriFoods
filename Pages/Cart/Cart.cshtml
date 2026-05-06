@@ -2,8 +2,58 @@
 @model ShriFoods.Pages.Cart.CartModel
 @{
 }
-<div>
+<div class="container-fluid">
 
-
+    <div class="container">
+        <h3>Your Cart items </h3>
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-hover">
+                    <th scope="col">CartId</th>
+                    <th scope="col">ProductName</th>
+                    <th scope="col">ProductUniqueId</th>
+                    <th scope="col">ProductPrice</th>
+                    <th scope="col">ProductQty</th>
+                    <th scope="col">Total</th>
+ 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cartItems in Model.only_CartItemModel)
+                {
+                    <tr>
+                        <td>@cartItems.CartId                        </td>
+                        <td>@cartItems.ProductName</td>
+                        <td>@cartItems.ProductUniqueId</td>
+                        <td>@cartItems.ProductPrice</td>
+                        <td>@cartItems.ProductQty</td>
+                        <td>@cartItems.CartTotal</td>
+                        <td>
+                            <!-- Delete form targeting the 'OnPostDelete' handler -->
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
+                                <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div class="row">
+            <button class="col-6">
+                <a>Continue Shopping</a>
+            </button>
+            <button class="col-6">
+                <a>CheckoutNow</a>
+            </button>
+        </div>
+       
+    </div>
 
 </div>

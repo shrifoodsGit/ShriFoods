@@ -41,19 +41,24 @@ namespace ShriFoods.Pages.Customer
 
             }
 
-            //cartItems list display   
-            list_CartItemModel = _dbContext.CartItemTb.ToList();
-            foreach (var cartItems in list_CartItemModel)
-            {
+            ////cartItems list display   
+            //list_CartItemModel = _dbContext.CartItemTb.ToList();
+            //foreach (var cartItems in list_CartItemModel)
+            //{
 
-                if (cartItems.ProductUniqueId ==session_UserUniqueId)
-                {
-                    only_CartItemModel = list_CartItemModel.FindAll(a => a.ProductUniqueId == session_UserUniqueId);
-                    //Major Milestone in achiving only wanted list out of selected index
-                    //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
-                }
+            //    if (cartItems.ProductUniqueId ==session_UserUniqueId)
+            //    {
+            //        only_CartItemModel = list_CartItemModel.FindAll(a => a.ProductUniqueId == session_UserUniqueId);
+            //        //Major Milestone in achiving only wanted list out of selected index
+            //        //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
+            //    }
 
-            }
+            //}
+        }
+
+        public IActionResult OnPostContshopping()
+        {
+            return RedirectToPage("/Index");
         }
     }
 }
