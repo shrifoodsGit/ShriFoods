@@ -38,13 +38,23 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
       
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2A35BB72932E4F8A9D909F0A6108B0B2 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_98B9A91E17C54129AEB9DE99174FF2CF }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F9CD22E8993B4272B49043B2621FA50E }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -52,4 +62,4 @@ jobs:
           app-name: 'ShriFoods'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6B1BCAFDD79348BC8EF6D05FE3BCB4BB }}
+          
