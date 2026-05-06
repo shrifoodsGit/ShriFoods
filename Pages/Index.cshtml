@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 <div id="top"></div>
 <section class="hero">
     <div class="hero-overlay">
@@ -34,17 +34,30 @@
                         <h5 class="col-4">
                         </h5>
                         <h5 class="col-4">
-                        </h5>
+                            <i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice </h5>
                     </div>
                     <div class="row card-body">
                         <h6 class="col-6">
-                            @if (!string.IsNullOrEmpty(Model.ImageBase64))
+             
+                            @if (listproduct.ProductName == "Multigrain")
                             {
-                                <img src="data:image/jpeg;base64,@Model.ImageBase64" alt="Database Image" width="200px" height="200px" />
+                                @foreach (var imageUrl in Model.AttaImageUrls)
+                                {
+                                    <img src="@imageUrl" alt="Gallery Image" style="width: 200px; margin: 10px;" />
+                                }
+                            }else
+                            {
+                                // Convert byte array to Base64 string
+                                var ImageBase64 = Convert.ToBase64String(listproduct.ProductImage);
+                         
+                                @if (!string.IsNullOrEmpty(ImageBase64))
+                                {
+                                    <img src="data:image/jpeg;base64,@ImageBase64" alt="Database Image" width="200px" height="200px" />
+                                }
                             }
                         </h6>
-                        <h5 class="col-3"> Price: </h5>
-                        <h5 class="col-3"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
+                        <h5 class="col-3"> Description: </h5>
+                        <h5 class="col-3"></h5>
                     </div>
                     <div class="ride-row ride-card-header">
                         <h5 class="col-4">

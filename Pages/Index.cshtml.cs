@@ -7,24 +7,28 @@ namespace ShriFoods.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-
         private readonly FoodsDBContext _dBContext;
+        private readonly IWebHostEnvironment _env;
+
         public List<ProductModel> listProductModel = new List<ProductModel>();
 
         public List<CartItemModel> listCartItemModel = new List<CartItemModel>();
 
+        public List<string> AttaImageUrls { get; set; } = new List<string>();
+
         [BindProperty]
         public CartItemModel cartItemModel { get; set; }
 
-
-        public string ImageBase64 { get; set; }
+        //[BindProperty]
+        //public string ImageBase64 { get; set; }
 
         [BindProperty]
         public int ItemQuantity { get; set; } = 1;
-        public IndexModel(FoodsDBContext context, ILogger<IndexModel> logger)
+        public IndexModel(FoodsDBContext context, ILogger<IndexModel> logger, IWebHostEnvironment env)
         {
             _logger = logger;
-            _dBContext = context; 
+            _dBContext = context;
+            _env = env;
         }
         public void OnGet()
         {
@@ -33,12 +37,25 @@ namespace ShriFoods.Pages
 
             listProductModel = _dBContext.ProductsTb.ToList();
 
-            //var record = await listProductModel;
-            foreach (Model.ProductModel lProducts in listProductModel)
+
+
+            //Pilling Images into list 
+            string folderName = "img/Products/Atta/MultiGrain";
+            string path = Path.Combine(_env.WebRootPath, folderName);
+
+            if (Directory.Exists(path))
             {
-                // Convert byte array to Base64 string
-                ImageBase64 = Convert.ToBase64String(lProducts.ProductImage);
+                //Get all Image files
+                var files = Directory.GetFiles(path, "*.*")
+                .Where(s => s.EndsWith(".jpg") ||s.EndsWith(".png")||s.EndsWith(".gif"));
+
+                foreach (var file in files)
+                {
+                    //Convert physical path to a web-relative URL
+                    AttaImageUrls.Add($"/{folderName}/{Path.GetFileName(file)}");
+                }
             }
+
         }
     }
 }
