@@ -20,21 +20,19 @@
 
 <h2>Our Products </h2>
 <section id="products" class="products-section">
-<div class="container">
-    <section id="products" class="products-section">
-        <div class="container-fluid">
+        <div class="container">
             <h2 class="section-title">Our Premium Products</h2>
-     
+        <div class="row">
+            <div class="products-grid">
             @foreach (ShriFoods.Model.ProductModel listproduct in Model.listProductModel)
             {
-                <br />
-                    <div class="row">
-                        <div class="products-grid">
-                <div class="prodcut-card">
+        
+ 
+                  <div class="product-card">
         
                                 @if (listproduct.ProductName == "Multigrain")
                                 {
-                                    <div id="dynamicCarousel" class="carousel slide" data-bs-ride="carousel" >
+                                    <div id="dynamicCarousel" class="carousel" data-bs-ride="carousel" >
                                         <!-- Indicators -->
                                         <div class="carousel-indicators">
                                             @for (int i = 0; i < Model.AttaImageUrls.Count; i++)
@@ -95,15 +93,13 @@
                     
                    
                     </div>
-                    </div>
-                    </div>
+            <br />
             }
-      
             </div>
+        </div>
+       </div>
     </section>
-</div>
 
-</section>
 <section class="about-section">
     <div class="container about-content">
         <div class="about-text">
