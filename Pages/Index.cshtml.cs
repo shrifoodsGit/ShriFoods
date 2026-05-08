@@ -7,7 +7,8 @@ namespace ShriFoods.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly FoodsDBContext _dBContext;
+        //private readonly FoodsDBContext _dBContext;
+        private readonly FoodDbContext _dBContext;
         private readonly IWebHostEnvironment _env;
 
         public List<ProductModel> listProductModel = new List<ProductModel>();
@@ -24,7 +25,7 @@ namespace ShriFoods.Pages
 
         [BindProperty]
         public int ItemQuantity { get; set; } = 1;
-        public IndexModel(FoodsDBContext context, ILogger<IndexModel> logger, IWebHostEnvironment env)
+        public IndexModel(FoodDbContext context, ILogger<IndexModel> logger, IWebHostEnvironment env)
         {
             _logger = logger;
             _dBContext = context;

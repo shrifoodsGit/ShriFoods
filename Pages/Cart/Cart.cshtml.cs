@@ -8,7 +8,7 @@ namespace ShriFoods.Pages.Cart
 {
     public class CartModel : PageModel
     {
-        private readonly FoodsDBContext _dbContext;
+        private readonly FoodDbContext _dbContext;
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
@@ -19,7 +19,7 @@ namespace ShriFoods.Pages.Cart
         public CartItemModel updateCartRecord { get; set; }
 
         //Constructor
-        public CartModel(FoodsDBContext context)
+        public CartModel(FoodDbContext context)
         {
             _dbContext = context;
         }

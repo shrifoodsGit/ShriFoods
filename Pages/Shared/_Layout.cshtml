@@ -47,11 +47,12 @@
                     <p>Welcome:<span id="userName">@Context.Session.GetString("session_UserName")</span></p>
                     @if (@Context.Session.GetString("session_UserRole") =="Cust")
                     {
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Customer/CustProfile"><span id="riderprofileBtn">MyProfile</span></a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Customer/CustProfile"><span id="UserprofileBtn">MyProfile</span></a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Cart/Cart"><span id="cartBtn">My Basket</span></a>
                     }
                     else if (@Context.Session.GetString("session_UserRole") =="Admin")
                     {
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/AdDashboard"><span id="riderprofileBtn">MyProfile</span></a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/AdDashboard"><span id="UserprofileBtn">MyProfile</span></a>
                     }
                     <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
                     @{
@@ -63,7 +64,8 @@
                         <script>
                                                 /*-SigOutButton---*/
                                                 document.getElementById("userName").style.visibility ="visible";
-                                                document.getElementById("riderprofileBtn").style.visibility ="visible";
+                                                document.getElementById("UserprofileBtn").style.visibility ="visible";
+                                                 document.getElementById("cartBtn").style.visibility ="visible";
                                                 document.getElementById("signoutBtn").style.visibility ="visible";
 
                                                 /*--SigUpButton--& SignInButton-Hidden-*/
@@ -77,7 +79,8 @@
                         <script>
                                                 /*-SigOutButton---*/
                                                 document.getElementById("signoutBtn").style.visibility ="hidden";
-                                                document.getElementById("riderprofileBtn").style.visibility ="hidden";
+                                                document.getElementById("UserprofileBtn").style.visibility ="hidden";
+                                                 document.getElementById("cartBtn").style.visibility ="hidden";
                                                 document.getElementById("userName").innerText = "Guest";
 
                                                 /*--SigUpButton---*/
