@@ -11,7 +11,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
 //Database connection string
-builder.Services.AddDbContext<FoodsDBContext>(options =>
+builder.Services.AddDbContext<FoodDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
 //Session
