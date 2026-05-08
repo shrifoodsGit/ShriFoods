@@ -33,6 +33,19 @@ if (!app.Environment.IsProduction())
     app.UseHsts();
 }
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=()";
+
+    context.Response.Headers["Content-Security-Policy"] =
+        "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';";
+
+    await next();
+});
+
 // Enable session middleware
 app.UseSession(); 
 
@@ -45,7 +58,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseHsts();
 app.MapRazorPages();
 app.MapRazorPages();
 
