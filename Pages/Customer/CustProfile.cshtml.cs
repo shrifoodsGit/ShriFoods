@@ -6,7 +6,7 @@ namespace ShriFoods.Pages.Customer
 {
     public class CustProfileModel : PageModel
     {
-        private readonly FoodsDBContext _dbContext;
+        private readonly FoodDbContext _dbContext;
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
@@ -17,7 +17,7 @@ namespace ShriFoods.Pages.Customer
         public CartItemModel updateRecord { get; set; }
 
         //Constructor
-        public CustProfileModel(FoodsDBContext context)
+        public CustProfileModel(FoodDbContext context)
         {
             _dbContext = context;
         }

@@ -1,0 +1,76 @@
+﻿@page
+@model ShriFoods.Pages.Order.CheckOutModel
+@{
+}
+<div class="container-fluid">
+    <div class="container-fluid">
+
+        <div class="container">
+            <h3>Checkout </h3>
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table-hover">
+                        <th scope="col">CartId</th>
+                        <th scope="col">ProductName</th>
+                        <th scope="col">ProductUniqueId</th>
+                        <th scope="col">ProductPrice</th>
+                        <th scope="col">ProductQty</th>
+                        <th scope="col">Total</th>
+ 
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cartItems in Model.only_CartItemModel)
+                    {
+                        <tr>
+                            <td>@cartItems.CartId                        </td>
+                            <td>@cartItems.ProductName</td>
+                            <td>@cartItems.ProductUniqueId</td>
+                            <td>@cartItems.ProductPrice</td>
+                            <td>@cartItems.ProductQty</td>
+                            <td>@cartItems.CartTotal</td>
+                            <td>
+    @*                             <!-- Delete form targeting the 'OnPostDelete' handler -->
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete this?')">
+                                        Delete
+                                    </button>
+                                </form> *@
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                       
+                    }
+                </tbody>
+            </table>
+            <span style="align-content:center"><h3>Grand total =@Model.totL</h3></span>
+            <br />
+            <div class="row">                
+                <h5 class="col-4">@* <a>UPI</a><input type="radio" value="UPI" /> *@</h5>
+                <h5 class="col-4"><input type="radio" value="Cash On Delivery" />  <a>Cash on Delivery</a></h5>
+                <h5 class="col-4"></h5>
+               
+            </div>
+            <div class="row">
+                <button class="col-4">
+                    @* <a href="/Index" class=""><input type="button" class="btnSubmit" value="Continue Shopping" /></a> *@
+         
+                </button>
+                <form method="post" asp-page-handler="Order">
+                <button class="col-4">
+                   <input type="button" class="btnSubmit" value="Place Order" />              
+                </button>
+                </form>
+                <button class="col-4">
+                 @*    <a href="/CheckOut" class=""><input type="button" class="btnSubmit" value="CheckOut Now" /></a> *@
+                </button>
+            </div>
+       
+        </div>
+
+    </div>
+</div>

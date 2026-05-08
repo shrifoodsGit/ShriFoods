@@ -10,7 +10,7 @@ namespace ShriFoods.Pages
     public class SignUpModel : PageModel
     {
         private const string smsSent = "Success";
-        private readonly FoodsDBContext _dBContext;
+        private readonly FoodDbContext _dBContext;
         private readonly IConfiguration _config;
 
         public PhoneVerify twilo;
@@ -26,7 +26,7 @@ namespace ShriFoods.Pages
 
 
         //Constructor
-        public SignUpModel(FoodsDBContext context, IConfiguration config)
+        public SignUpModel(FoodDbContext context, IConfiguration config)
         {
             _dBContext = context;
             _config = config;

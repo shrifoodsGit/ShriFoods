@@ -10,7 +10,7 @@ namespace ShriFoods.Pages.Admin
 {
     public class UploadProductsModel : PageModel
     {
-        private readonly FoodsDBContext _dbContext;
+        private readonly FoodDbContext _dbContext;
 
         [BindProperty]
         public int newProductId { get; set; }
@@ -32,7 +32,7 @@ namespace ShriFoods.Pages.Admin
         public int UniqueNumber { get; set; }
 
         //Constructor 
-        public UploadProductsModel(FoodsDBContext context)
+        public UploadProductsModel(FoodDbContext context)
         {
             _dbContext = context;
         }

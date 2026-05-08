@@ -1,0 +1,142 @@
+﻿@page
+@model ShriFoods.Pages.Order.OrdersModel
+@{
+}
+<div class="container-fluid">
+    <h2>Order Place Successfully</h2>
+
+    <h2>Oder Summary</h2>
+
+    
+   @*  # Order Summary Razor Page with Downloadable PDF (ASP.NET Core Razor Pages)
+
+This example includes:
+
+1. `OrderSummary.cshtml`
+2. `OrderSummary.cshtml.cs`
+3. PDF generation using QuestPDF
+4. Sample Order Model
+5. Download PDF button
+6. Clean responsive UI
+
+---
+
+# 1. Install NuGet Package
+
+Install QuestPDF:
+
+```bash
+Install-Package QuestPDF
+```
+
+or
+
+```bash
+dotnet add package QuestPDF
+```
+
+---
+
+# 2. Pages/Orders/OrderSummary.cshtml
+
+```html
+
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-dark text-white p-4 rounded-top-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">Order Summary</h2>
+                <p class="mb-0 opacity-75">Order ID: #@Model.Order.Id</p>
+            </div>
+
+            <a asp-page-handler="DownloadPdf"
+               asp-route-id="@Model.Order.Id"
+               class="btn btn-warning btn-lg rounded-pill px-4">
+                Download PDF
+            </a>
+        </div>
+
+        <div class="card-body p-5">
+
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Customer Details</h5>
+                    <p class="mb-1"><strong>Name:</strong> @Model.Order.CustomerName</p>
+                    <p class="mb-1"><strong>Phone:</strong> @Model.Order.Phone</p>
+                    <p class="mb-1"><strong>Email:</strong> @Model.Order.Email</p>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <h5 class="fw-bold">Order Info</h5>
+                    <p class="mb-1"><strong>Date:</strong> @Model.Order.OrderDate.ToString("dd MMM yyyy")</p>
+                    <p class="mb-1"><strong>Status:</strong>
+                        <span class="badge bg-success px-3 py-2">
+                            @Model.Order.Status
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Order.Items)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>₹@item.Price</td>
+                                <td>₹@(item.Quantity * item.Price)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6 offset-md-6">
+                    <div class="card bg-light border-0 shadow-sm rounded-4">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <strong>₹@Model.Order.Subtotal</strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>GST</span>
+                                <strong>₹@Model.Order.GST</strong>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between fs-4 fw-bold">
+                                <span>Total</span>
+                                <span>₹@Model.Order.Total</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+ *@
+
+</div>

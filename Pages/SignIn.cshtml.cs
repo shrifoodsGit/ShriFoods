@@ -6,13 +6,13 @@ namespace ShriFoods.Pages
 {
     public class SignInModel : PageModel
     {
-        private readonly FoodsDBContext _dbContext;
+        private readonly FoodDbContext _dbContext;
 
 
         private RedirectToPageResult returnpage;
         public List<UserModel> listUserModel = new List<UserModel>();
 
-        public SignInModel(FoodsDBContext dbContext)
+        public SignInModel(FoodDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -33,6 +33,7 @@ namespace ShriFoods.Pages
                     HttpContext.Session.Clear();
 
                     //Session Start, Creating a session variables 
+                    HttpContext.Session.SetInt32("session_UserId", user.UserId);
                     HttpContext.Session.SetString("session_UserName", user.UserFirstName);
                     HttpContext.Session.SetString("session_UserUniqueId", user.UserUniqueId);
                     HttpContext.Session.SetString("session_UserContact", user.UserContact);

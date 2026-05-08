@@ -9,12 +9,12 @@ namespace ShriFoods.Pages.Admin
 
         public List<UserModel> list_UserModel = new List<UserModel>();
         public List<ProductModel> list_ProductModel = new List<ProductModel>();
-        public List<OrdersModel> list_OrdersModel = new List<OrdersModel>();
+        public List<OrderModel> list_OrderModel = new List<OrderModel>();
 
 
-        private readonly FoodsDBContext _dbContext;
+        private readonly FoodDbContext _dbContext;
         //Constructor 
-        public AdDashboardModel(FoodsDBContext context)
+        public AdDashboardModel(FoodDbContext context)
         {
             _dbContext = context;
         }
@@ -35,7 +35,7 @@ namespace ShriFoods.Pages.Admin
                 //return RedirectToPage("/Admin/AdminDashboard");
 
                 //Orders Table 
-                list_OrdersModel = _dbContext.OrderTb.ToList();
+                list_OrderModel = _dbContext.OrderTb.ToList();
             }
             else
             {
