@@ -12,8 +12,8 @@ namespace ShriFoods.Pages.Cart
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
-        public List<CartItemModel> list_CartItemModel = new List<CartItemModel>();
-        public List<CartItemModel> only_CartItemModel = new List<CartItemModel>();
+        public List<NewCartModel> list_CartModel = new List<NewCartModel>();
+        public List<NewCartModel> only_CartModel = new List<NewCartModel>();
 
         [BindProperty]
         public CartItemModel updateCartRecord { get; set; }
@@ -29,6 +29,7 @@ namespace ShriFoods.Pages.Cart
         public void OnGet()
         {
             //Display All selected items 
+            int session_UserId = (int)HttpContext.Session.GetInt32("session_UserId");
             string session_UserName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
             string session_UserRole = HttpContext.Session.GetString("session_UserRole");
@@ -46,14 +47,14 @@ namespace ShriFoods.Pages.Cart
             //}
 
             //cartItems list display   
-            if (_dbContext.CartItemTb.ToList()!=null) { 
-            list_CartItemModel = _dbContext.CartItemTb.ToList();
-            foreach (var cartItems in list_CartItemModel)
+            if (_dbContext.Cart.ToList()!=null) { 
+            list_CartModel = _dbContext.Cart.ToList();
+            foreach (var cartItems in list_CartModel)
             {
 
-                if (cartItems.UserUniqueId ==session_UserUniqueId)
+                if (cartItems.UserId ==session_UserId.ToString())
                 {
-                    only_CartItemModel = list_CartItemModel.FindAll(a => a.UserUniqueId == session_UserUniqueId);
+                    only_CartModel = list_CartModel.FindAll(a => a.UserId == session_UserId.ToString());
                     //Major Milestone in achiving only wanted list out of selected index
                     //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }
@@ -61,5 +62,23 @@ namespace ShriFoods.Pages.Cart
             }
             }
         }
+
+
+        public async Task<List<NewCartModel>> GetCartItems(string userId)
+        {
+            return await _dbContext.Cart.Include(x => x.Product).Where(x => x.UserId==userId).ToListAsync();
+        }
+
+        //To Delete selected product from cart
+        public async Task OnPostDelete(int cartId)
+        {
+            var item=await _dbContext.Cart.FindAsync(cartId); 
+            if (item!=null) 
+            {
+                _dbContext.Cart.Remove(item); 
+                await _dbContext.SaveChangesAsync(); 
+            }
+        }
+
     }
 }

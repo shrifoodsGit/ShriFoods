@@ -13,23 +13,21 @@
                     <tr class="table-hover">
                         <th scope="col">CartId</th>
                         <th scope="col">ProductName</th>
-                        <th scope="col">ProductUniqueId</th>
-                        <th scope="col">ProductPrice</th>
-                        <th scope="col">ProductQty</th>
-                        <th scope="col">Total</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Price</th>
+                        @*      <th scope="col">Total</th> *@
  
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var cartItems in Model.only_CartItemModel)
+                    @foreach (var cartItems in Model.only_NewCartModel)
                     {
                         <tr>
                             <td>@cartItems.CartId                        </td>
                             <td>@cartItems.ProductName</td>
-                            <td>@cartItems.ProductUniqueId</td>
-                            <td>@cartItems.ProductPrice</td>
-                            <td>@cartItems.ProductQty</td>
-                            <td>@cartItems.CartTotal</td>
+                            <td>@cartItems.Quantity</td>
+                            <td>@cartItems.Price</td>
+                         @* <td>@cartItems.CartTotal</td> *@
                             <td>
     @*                             <!-- Delete form targeting the 'OnPostDelete' handler -->
                                 <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
@@ -60,7 +58,7 @@
                     @* <a href="/Index" class=""><input type="button" class="btnSubmit" value="Continue Shopping" /></a> *@
          
                 </button>
-                <form method="post" asp-page-handler="Order">
+                <form method="post" asp-page-handler="Order" asp-route-id="@Model.bind_UserId">
                 <button class="col-4">
                    <input type="button" class="btnSubmit" value="Place Order" />              
                 </button>

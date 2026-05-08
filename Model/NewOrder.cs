@@ -1,7 +1,12 @@
-﻿namespace ShriFoods.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ShriFoods.Model
 {
-    public class Order
+    public class NewOrder
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }
 
         public string UserId { get; set; }
@@ -22,6 +27,6 @@
 
         public DateTime OrderedDate { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 }
