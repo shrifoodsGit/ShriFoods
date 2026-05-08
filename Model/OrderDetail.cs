@@ -1,8 +1,12 @@
-﻿namespace ShriFoods.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ShriFoods.Model
 {
     public class OrderDetail
     {
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderDetailId { get; set; }
 
         public int OrderId { get; set; }
@@ -13,10 +17,11 @@
 
         public decimal UnitPrice { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        [NotMapped]
+        public decimal TotalPrice => Quantity * UnitPrice;
 
-        public Order Order { get; set; }
+        public NewOrder? Order { get; set; }
 
-        public ProductModel Product { get; set; }
+        public ProductModel? Product { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace ShriFoods.Model
 
         public DbSet<NewCartModel> Cart { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<NewOrder> Orders { get; set; }
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
