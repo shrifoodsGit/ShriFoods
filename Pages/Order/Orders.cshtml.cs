@@ -1,21 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using ShriFoods.Model;
-using System.ComponentModel;
-using System.Drawing;
-using System.Reflection.Metadata;
+using ShriFoods.Pages.Services;
 using Document = QuestPDF.Fluent.Document;
 using IContainer = QuestPDF.Infrastructure.IContainer;
+
 
 namespace ShriFoods.Pages.Order
 {
     public class OrdersModel : PageModel
     {
-        public OrderModel Order { get; set; } = new();
+        private readonly FoodDbContext _dbContext;
+        private readonly EmailService _emailService;
+        private readonly SmsService _smsService;
+        public List<NewOrder> Orders { get; set; } = new();
 
+        [BindProperty]
+        public NewOrder? Order { get; set; }
+
+        public OrdersModel(FoodDbContext context, EmailService emailService, SmsService smsService)
+        {
+            _dbContext = context;
+            _emailService= emailService;
+            _smsService = smsService;
+        }
 
         private static IContainer CellStyle(IContainer container)
         {
@@ -24,119 +36,124 @@ namespace ShriFoods.Pages.Order
                 .BorderColor(Colors.Grey.Lighten2)
                 .Padding(8);
         }
-
-        public void OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            // Sample Data
-            //Order = GetSampleOrder(id);
+            Order = await GetOrderById(id);
 
+            if (Order == null)
+                return NotFound();
+
+            Orders = await GetOrders(Order.UserId);
+
+            //Send Email on successfull placing order
+            await _emailService.SendOrderEmail(
+                    Order.UserEmail,
+                    Order.UserFirstName,
+                    Order.OrderId,
+                    Order.TotalAmount);
+
+            //Send SMS successfull placing order
+            await _smsService.SendSms(
+                    Order.PhoneNumber,
+                    Order.UserFirstName,
+                    Order.OrderId);
+
+            return Page();
         }
 
+        public async Task<NewOrder?> GetOrderById(int orderId)
+        {
+            return await _dbContext.Orders
+                .Include(x => x.OrderDetails)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+        }
 
+        public async Task<List<NewOrder>> GetOrders(string userId)
+        {
+            return await _dbContext.Orders
+                .Include(x => x.OrderDetails)
+                .ThenInclude(x => x.Product)
+                .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.OrderedDate)
+                .ToListAsync();
+        }
 
-        //public IActionResult OnGetDownloadPdf(int id)
-        //{
-        //    //var order = GetSampleOrder(id);
+        public async Task<IActionResult> OnGetDownloadPdfAsync(int id)
+        {
+            var order = await GetOrderById(id);
 
-        //    QuestPDF.Settings.License = LicenseType.Community;
+            if (order == null)
+                return NotFound();
 
-        //    var pdfBytes = Document.Create(container =>
-        //    {
-        //        container.Page(page =>
-        //        {
-        //            page.Margin(40);
+            QuestPDF.Settings.License = LicenseType.Community;
 
-        //            page.Header()
-        //                .Text($"Order Summary - #{order.Id}")
-        //                .FontSize(24)
-        //                .Bold();
+            var pdfBytes = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(30);
 
-        //            page.Content().Column(column =>
-        //            {
-        //                column.Spacing(15);
+                    page.Header()
+                        .Text($"Order Summary - #{order.OrderId}")
+                        .FontSize(24)
+                        .Bold();
 
-        //                column.Item().Text($"Customer: {order.CustomerName}");
-        //                column.Item().Text($"Phone: {order.Phone}");
-        //                column.Item().Text($"Email: {order.Email}");
-        //                column.Item().Text($"Date: {order.OrderDate:dd MMM yyyy}");
+                    page.Content().Column(column =>
+                    {
+                        column.Spacing(12);
 
-        //                column.Item().Table(table =>
-        //                {
-        //                    table.ColumnsDefinition(columns =>
-        //                    {
-        //                        columns.RelativeColumn(4);
-        //                        columns.RelativeColumn(1);
-        //                        columns.RelativeColumn(2);
-        //                        columns.RelativeColumn(2);
-        //                    });
+                        //column.Item().Text($"Customer: {order.CustomerName}");
+                        column.Item().Text($"Phone: {order.PhoneNumber}");
+                        //column.Item().Text($"Email: {order.Email}");
+                        column.Item().Text($"Date: {order.OrderedDate:dd MMM yyyy hh:mm tt}");
+                        column.Item().Text($"Status: {order.OrderStatus}");
 
-        //                    table.Header(header =>
-        //                    {
-        //                        header.Cell().Element(CellStyle).Text("Item").Bold();
-        //                        header.Cell().Element(CellStyle).Text("Qty").Bold();
-        //                        header.Cell().Element(CellStyle).Text("Price").Bold();
-        //                        header.Cell().Element(CellStyle).Text("Total").Bold();
-        //                    });
+                        column.Item().PaddingTop(10);
 
-        //                    foreach (var item in order.Items)
-        //                    {
-        //                        table.Cell().Element(CellStyle).Text(item.Name);
-        //                        table.Cell().Element(CellStyle).Text(item.Quantity.ToString());
-        //                        table.Cell().Element(CellStyle).Text($"₹{item.Price}");
-        //                        table.Cell().Element(CellStyle).Text($"₹{item.Price * item.Quantity}");
-        //                    }
-        //                });
+                        column.Item().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn(4);
+                            columns.RelativeColumn(1);
+                            columns.RelativeColumn(2);
+                            columns.RelativeColumn(2);
+                        });
 
-        //                column.Item().PaddingTop(20);
+                        table.Header(header =>
+                        {
+                            header.Cell().Element(CellStyle).Text("Item").Bold();
+                            header.Cell().Element(CellStyle).Text("Qty").Bold();
+                            header.Cell().Element(CellStyle).Text("Price").Bold();
+                            header.Cell().Element(CellStyle).Text("Total").Bold();
+                        });
 
-        //                column.Item().AlignRight().Text($"Subtotal: ₹{order.Subtotal}").Bold();
-        //                column.Item().AlignRight().Text($"GST: ₹{order.GST}").Bold();
-        //                column.Item().AlignRight().Text($"Grand Total: ₹{order.Total}")
-        //                    .FontSize(18)
-        //                    .Bold();
-        //            });
+                        foreach (var item in order.OrderDetails)
+                        {
+                            table.Cell().Element(CellStyle).Text(item.Product?.ProductName ?? "Product");
+                            table.Cell().Element(CellStyle).Text(item.Quantity.ToString());
+                            table.Cell().Element(CellStyle).Text($"₹{item.UnitPrice:N2}");
+                            table.Cell().Element(CellStyle).Text($"₹{(item.Quantity * item.UnitPrice):N2}");
+                        }
+                    });
 
-        //            page.Footer()
-        //                .AlignCenter()
-        //                .Text(text =>
-        //                {
-        //                    text.Span("Thank you for choosing ShriGo");
-        //                });
-        //        });
-        //    }).GeneratePdf();
+                        column.Item().PaddingTop(20);
 
-        //    return File(pdfBytes, "application/pdf", $"Order_{order.Id}.pdf");
-        //}
+                        column.Item()
+                            .AlignRight()
+                            .Text($"Grand Total: ₹{order.TotalAmount:N2}")
+                            .FontSize(18)
+                            .Bold();
+                    });
 
+                    page.Footer()
+                        .AlignCenter()
+                        .Text("Thank you for choosing Shri Suchi Foods");
+                });
+            }).GeneratePdf();
 
-
-        //private Order GetSampleOrder(int id)
-        //{
-        //    return new Order
-        //    {
-        //        Id = id,
-        //        CustomerName = "Pavan Bandi",
-        //        Phone = "+91 9876543210",
-        //        Email = "customer@shrigo.in",
-        //        OrderDate = DateTime.Now,
-        //        Status = "Completed",
-        //        Items = new List<OrderItem>
-        //        {
-        //            new OrderItem
-        //            {
-        //                Name = "Car Full Service",
-        //                Quantity = 1,
-        //                Price = 2999
-        //            },
-        //            new OrderItem
-        //            {
-        //                Name = "Interior Cleaning",
-        //                Quantity = 1,
-        //                Price = 999
-        //            }
-        //        }
-        //    };
-        //}
+            return File(pdfBytes, "application/pdf", $"Order_{order.OrderId}.pdf");
+        }
     }
 }
-

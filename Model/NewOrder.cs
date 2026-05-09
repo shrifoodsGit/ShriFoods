@@ -10,9 +10,9 @@ namespace ShriFoods.Model
         public int OrderId { get; set; }
 
         public string UserId { get; set; }
-
+        public string UserFirstName { get; set; }
+        public string UserEmail { get; set; }
         public string OrderNumber { get; set; }
-
         public decimal TotalAmount { get; set; }
 
         public string OrderStatus { get; set; }

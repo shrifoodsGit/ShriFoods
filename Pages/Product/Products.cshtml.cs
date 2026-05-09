@@ -83,7 +83,7 @@ namespace ShriFoods.Pages.Product
                             UserId = session_UserId.ToString(),
                             ProductId = id,
                             Quantity = ItemQuantity,
-                            Price = decimal.Parse(productSelected.ProductPrice),
+                            Price = productSelected.ProductPrice,
                             AddedDate = DateTime.Now,
                             ProductName = productSelected.ProductName,
                             Product =productSelected
@@ -103,7 +103,7 @@ namespace ShriFoods.Pages.Product
                                 UserId = session_UserId.ToString(),
                                 ProductId = id,
                                 Quantity = ItemQuantity,
-                                Price = decimal.Parse(productSelected.ProductPrice),
+                                Price = productSelected.ProductPrice,
                                 AddedDate = DateTime.Now,
                                 ProductName = productSelected.ProductName,
                                 Product =productSelected
@@ -114,26 +114,7 @@ namespace ShriFoods.Pages.Product
 
                 
                     }
-               
-                    //if (existingCart != null)
-                    //{
-                    //    existingCart.Quantity += quantity;
-                    //}
-                    //else
-                    //{
 
-
-                    //    NewCartModel cart = new NewCartModel
-                    //    {
-                    //        UserId = userId,
-                    //        ProductId = productId,
-                    //        Quantity = quantity,
-                    //        Price = decimal.Parse(productSelected.ProductPrice),
-                    //        AddedDate = DateTime.Now
-                    //    };
-
-                    //    _context.Cart.Add(cart);
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -141,64 +122,9 @@ namespace ShriFoods.Pages.Product
                 }
 
                  await _context.SaveChangesAsync();
-
-                //try
-                //{
-
-                //    AddToCart(session_UserId, id, ItemQuantity);
-
-                //    var productSelected = await _context.ProductsTb.FirstOrDefaultAsync(e => e.ProductId ==id);
-                //    // Access the selected value via ItemQuantity
-                //    var result = ItemQuantity;
-
-                //    // Returns true if NO data exists in the table
-                //    bool isTableEmpty = !_context.CartItemTb.Any();
-                //    if (isTableEmpty)
-                //    {
-                //        newcartItemModel.CartId = 1;
-                //        Console.WriteLine("Table is empty.");
-                //    }
-                //    else
-                //    {
-                //        // Finds the max Id number and adds +1 to it 
-                //        var newCartId = _context.CartItemTb.Max(r => r.CartId);
-                //        newcartItemModel.CartId = newCartId+1;
-                //        Console.WriteLine("Table has data.");
-                //    }
-
-
-                //    int totalproductamount = int.Parse(productSelected.ProductPrice);
-
-                //    newcartItemModel.ProductId = id.ToString();
-                //    newcartItemModel.ProductUniqueId = productSelected.ProductUniqueId;
-                //    newcartItemModel.ProductQty = result.ToString();
-                //    newcartItemModel.ProductName = productSelected.ProductName;
-                //    newcartItemModel.ProductPrice = productSelected.ProductPrice;
-                //    newcartItemModel.ProductWeight = productSelected.ProductWeight;
-                //    //newcartItemModel.ProductDescription = productSelected.ProductDescription;
-                //    //newcartItemModel.ProductImage = productSelected.ProductImage;
-
-                //    newcartItemModel.UserUniqueId =session_UserUniqueId;
-                //    newcartItemModel.UserFirstName = session_userName;
-                //    newcartItemModel.CartTotal = (totalproductamount*result).ToString();
-
-
-
-
-                //    //Store shopped products into Cart 
-                //    _context.CartItemTb.Add(newcartItemModel);
-                //    listCartItemModel.Add(newcartItemModel);
-                //    _context.SaveChanges();
-
-                //    return RedirectToPage("/Cart/Cart");
-                //}
-                //catch (Exception ex)
-                //{
-                //    return (IActionResult)ex;
-
-                //}
+  
             }
-            return Page();
+            return Page();//change it
         }
 
 

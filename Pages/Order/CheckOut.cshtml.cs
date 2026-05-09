@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShriFoods.Model;
 using System.Net;
 using System.Numerics;
 using Twilio.Types;
+using Xunit;
 
 namespace ShriFoods.Pages.Order
 {
@@ -32,6 +34,9 @@ namespace ShriFoods.Pages.Order
         [BindProperty]
         public int bind_UserId { get; set; }
 
+        [BindProperty]
+        public int bind_OrderId { get; set; }
+
 
         [BindProperty]
         public OrderModel newOrderModel { get; set; }
@@ -44,14 +49,6 @@ namespace ShriFoods.Pages.Order
 
         public void OnGet()
         {
-
-            //return await _.Orders
-            //    .Include(x => x.OrderDetails)
-            //    .ThenInclude(x => x.Product)
-            //    .Where(x => x.UserId==userId)
-            //    .OrderByDescending(x => x.OrderedDate)
-            //    .ToListAsync();
-
 
             //Display All selected items 
             int session_UserId = (int)HttpContext.Session.GetInt32("session_UserId");
@@ -84,8 +81,6 @@ namespace ShriFoods.Pages.Order
         public async Task<IActionResult> OnPostOrder(string id)
         {
             //Placing order, so store it in Order table 
-
-
             var userItems = await _dbContext.UserTb
                 .FirstOrDefaultAsync(x => x.UserId==(int.Parse(id)));
 
@@ -99,10 +94,13 @@ namespace ShriFoods.Pages.Order
             NewOrder order =new NewOrder
             { 
                 UserId=id,
+                UserEmail = userItems.UserEmail,
+                UserFirstName = userItems.UserFirstName,
                 OrderNumber="ORD-"+DateTime.Now.Ticks,
                 TotalAmount=totalAmount,
                 OrderStatus="Pending",
                 PaymentStatus="Pending",
+                PaymentMethod ="COD",
                 ShippingAddress=userItems.UserAddress,
                 PhoneNumber=userItems.UserContact,
                 OrderedDate=DateTime.Now
@@ -123,93 +121,47 @@ namespace ShriFoods.Pages.Order
                     };
                 _dbContext.OrderDetails.Add(detail); 
             }
+            bind_OrderId = order.OrderId;
+
+            //Delete from cart onceorder placed successfully 
            // _dbContext.Cart.RemoveRange(cartItems); 
-            
+
             await _dbContext.SaveChangesAsync(); 
             
-            //return order.OrderId;
-
-
-            //Display All selected items 
-            //int session_UserId = (int)HttpContext.Session.GetInt32("session_UserId");
-            //string session_UserName = HttpContext.Session.GetString("session_UserName");
-            //string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
-            //string session_UserRole = HttpContext.Session.GetString("session_UserRole");
-
-            //// Check weather table is empty or not ?, Returns true if NO data exists in the table
-            //bool isTableEmpty = !_dbContext.OrderTb.Any();
-            //if (isTableEmpty)
-            //{
-            //    newOrderModel.OrderId = 1;
-            //    Console.WriteLine("Table is empty.");
-            //}
-            //else
-            //{
-            //    // Finds the max Id number and adds +1 to it 
-            //    var newOrderId = _dbContext.OrderTb.Max(r => r.OrderId);
-            //    newOrderModel.OrderId  = newOrderId+1;
-            //    Console.WriteLine("Table has data.");
-            //}
-
-            //// Generate a random number between 1,000,000 and 9,999,999
-            //UniqueNumber = _random.Next(10000, 100000);
-            //newOrderModel.OrderUniqueId = UniqueNumber.ToString();
-
-            ////CartItems list display   
-            //if (_dbContext.CartItemTb.ToList()!=null)
-            //{
-            //    list_NewCartModel = _dbContext.Cart.ToList();
-            //    foreach (var cartItems in list_NewCartModel)
-            //    {
-            //        if (cartItems.UserId ==session_UserUniqueId)
-            //        {
-            //            grandTotal.Add(cartItems.CartTotal);
-
-            //            newOrderModel.CartId=cartItems.CartId;
-            //            newOrderModel.CartTotal = cartItems.CartTotal;
-            //            newOrderModel.CustomerName=cartItems.UserFirstName;
-            //            newOrderModel.CustomerUniqueid=cartItems.UserUniqueId;
-            //            newOrderModel.ProductName = cartItems.ProductName;
-            //            newOrderModel.ProductPrice=cartItems.ProductPrice;
-            //            newOrderModel.ProductQty=cartItems.ProductQty;
-
-            //            _dbContext.OrderTb.Add(newOrderModel);
-            //            //int totL = (int.Parse(cartItems.CartTotal));
-            //            only_NewCartModel = list_NewCartModel.FindAll(a => a.UserId == session_UserId.ToString());
-            //        }
-            //    }  
-
-            //}
-
-            ////add user
-            //listUserModel = _dbContext.UserTb.ToList();
-            //foreach (var user in listUserModel)
-            //{
-            //    int index = listUserModel.FindIndex(a => a.UserFirstName == session_UserName);
-            //    if (user.UserFirstName ==session_UserName)
-            //    {
-            //        newOrderModel.CustomerContact =user.UserContact;
-            //        newOrderModel.CustomerEMail =user.UserEmail;
-            //        newOrderModel.CustomerAddress =user.UserAddress;
-            //        _dbContext.OrderTb.Add(newOrderModel);
-            //    }
-
-            //}
-
-            //newOrderModel.OrderDate = DateOnly.FromDateTime(DateTime.Now);
-
-            ////Add all the Order info into orders Table 
-            //totL = grandTotal.Sum(n => int.Parse(n));
-            //newOrderModel.GrandTotal = totL.ToString();    
-
-
-
-
-            ////Add and Save to DB
-
-            //_dbContext.SaveChanges();
-
-            return RedirectToPage("/Order/Orders");
+            return RedirectToPage("../Order/Orders", new { id = bind_OrderId });
         }
+
+        //Testing
+        [Fact]
+        public void OnPost_checkout()
+        {
+            RedirectToPage("/Orders");
+            //// 1. Arrange
+            //var pageModel = new (); // Or Controller
+
+            //// 2. Act
+            //var result = pageModel.OnPost("");
+
+            //// 3. Assert
+            //// Verify it is a RedirectToPageResult
+            //var redirectResult = Assert.IsType<RedirectToPageResult>(result);
+
+            //// Verify the destination page name
+            //Assert.Equal("Index", redirectResult.PageName);
+        }
+
+        [Fact]
+        public IActionResult OnPostTest()
+        {
+            // Your logic here...
+            return RedirectToPage("Details");
+
+            // Or using a relative path explicitly
+            // return RedirectToPage("./Details"); 
+        }
+
+
     }
-}
+
+    
+    }

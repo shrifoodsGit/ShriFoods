@@ -10,12 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.16.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
     <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+    <PackageReference Include="MimeKit" Version="4.16.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.2.2" />
     <PackageReference Include="QuestPDF" Version="2026.2.4" />
+    <PackageReference Include="RestSharp" Version="114.0.0" />
     <PackageReference Include="Twilio" Version="7.14.7" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@ namespace ShriFoods.Model
         public string ProductUniqueId { get; set; }
         public string ProductName { get; set; }
 
-        public string ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
         public byte[] ProductImage { get; set; }
         public string ProductWeight { get; set; }
         public string ProductDescription { get; set; }
