@@ -5,6 +5,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using ShriFoods.Model;
+using ShriFoods.Pages.Services;
 using Document = QuestPDF.Fluent.Document;
 using IContainer = QuestPDF.Infrastructure.IContainer;
 
@@ -14,15 +15,18 @@ namespace ShriFoods.Pages.Order
     public class OrdersModel : PageModel
     {
         private readonly FoodDbContext _dbContext;
-
+        private readonly EmailService _emailService;
+        private readonly SmsService _smsService;
         public List<NewOrder> Orders { get; set; } = new();
 
         [BindProperty]
         public NewOrder? Order { get; set; }
 
-        public OrdersModel(FoodDbContext context)
+        public OrdersModel(FoodDbContext context, EmailService emailService, SmsService smsService)
         {
             _dbContext = context;
+            _emailService= emailService;
+            _smsService = smsService;
         }
 
         private static IContainer CellStyle(IContainer container)
@@ -40,6 +44,19 @@ namespace ShriFoods.Pages.Order
                 return NotFound();
 
             Orders = await GetOrders(Order.UserId);
+
+            //Send Email on successfull placing order
+            await _emailService.SendOrderEmail(
+                    Order.UserEmail,
+                    Order.UserFirstName,
+                    Order.OrderId,
+                    Order.TotalAmount);
+
+            //Send SMS successfull placing order
+            await _smsService.SendSms(
+                    Order.PhoneNumber,
+                    Order.UserFirstName,
+                    Order.OrderId);
 
             return Page();
         }

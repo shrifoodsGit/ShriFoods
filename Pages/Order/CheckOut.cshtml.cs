@@ -94,6 +94,8 @@ namespace ShriFoods.Pages.Order
             NewOrder order =new NewOrder
             { 
                 UserId=id,
+                UserEmail = userItems.UserEmail,
+                UserFirstName = userItems.UserFirstName,
                 OrderNumber="ORD-"+DateTime.Now.Ticks,
                 TotalAmount=totalAmount,
                 OrderStatus="Pending",
@@ -122,7 +124,7 @@ namespace ShriFoods.Pages.Order
             bind_OrderId = order.OrderId;
 
             //Delete from cart onceorder placed successfully 
-            _dbContext.Cart.RemoveRange(cartItems); 
+           // _dbContext.Cart.RemoveRange(cartItems); 
 
             await _dbContext.SaveChangesAsync(); 
             

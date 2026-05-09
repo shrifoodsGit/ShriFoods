@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
 using ShriFoods.Pages;
+using ShriFoods.Pages.Services;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,16 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential= true;
 });
+
+//Email Service 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddScoped<EmailService>();
+
+//SmsService
+builder.Services.AddScoped<SmsService>();
+
 
 var app = builder.Build();
 
