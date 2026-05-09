@@ -83,7 +83,7 @@ namespace ShriFoods.Pages.Product
                             UserId = session_UserId.ToString(),
                             ProductId = id,
                             Quantity = ItemQuantity,
-                            Price = decimal.Parse(productSelected.ProductPrice),
+                            Price = productSelected.ProductPrice,
                             AddedDate = DateTime.Now,
                             ProductName = productSelected.ProductName,
                             Product =productSelected
@@ -103,7 +103,7 @@ namespace ShriFoods.Pages.Product
                                 UserId = session_UserId.ToString(),
                                 ProductId = id,
                                 Quantity = ItemQuantity,
-                                Price = decimal.Parse(productSelected.ProductPrice),
+                                Price = productSelected.ProductPrice,
                                 AddedDate = DateTime.Now,
                                 ProductName = productSelected.ProductName,
                                 Product =productSelected
