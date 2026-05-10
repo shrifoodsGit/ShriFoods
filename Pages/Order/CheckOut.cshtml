@@ -11,23 +11,26 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="table-hover">
-                        <th scope="col">CartId</th>
                         <th scope="col">ProductName</th>
                         <th scope="col">Qty</th>
                         <th scope="col">Price</th>
-                        @*      <th scope="col">Total</th> *@
+                        <th scope="col">Total</th>
  
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        var totalAmount = 0.0m;
+                    }
                     @foreach (var cartItems in Model.only_NewCartModel)
                     {
+                        var rowtotal = cartItems.Quantity* cartItems.Price;
+                        totalAmount += rowtotal;
                         <tr>
-                            <td>@cartItems.CartId                        </td>
                             <td>@cartItems.ProductName</td>
                             <td>@cartItems.Quantity</td>
                             <td>@cartItems.Price</td>
-                         @* <td>@cartItems.CartTotal</td> *@
+                            <td>@rowtotal.ToString()</td>
                             <td>
     @*                             <!-- Delete form targeting the 'OnPostDelete' handler -->
                                 <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
@@ -45,7 +48,7 @@
                     }
                 </tbody>
             </table>
-            <span style="align-content:center"><h3>Grand total =@Model.totL</h3></span>
+            <span style="align-content:center"><h3>Grand total =@totalAmount.ToString()</h3></span>
             <br />
             <div class="row">                
                 <h5 class="col-4">@* <a>UPI</a><input type="radio" value="UPI" /> *@</h5>
