@@ -30,6 +30,9 @@ builder.Services.Configure<EmailSettings>(
 
 builder.Services.AddScoped<EmailService>();
 
+Environment.GetEnvironmentVariable("Smtp_Brevo_Key");
+Environment.GetEnvironmentVariable("MSG91_key");
+
 //SmsService
 builder.Services.AddScoped<SmsService>();
 

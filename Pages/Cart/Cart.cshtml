@@ -10,23 +10,22 @@
         <table class="table table-striped">
             <thead>
                 <tr class="table-hover">
-                    <th scope="col">CartId</th>
                     <th scope="col">ProductName</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Price</th>
-            @*      <th scope="col">Total</th> *@
- 
+                    <th scope="col">Total</th> 
                 </tr>
             </thead>
             <tbody>
                 @foreach (var cartItems in Model.only_CartModel)
                 {
+                    var rowtotal = cartItems.Quantity* cartItems.Price;
+
                     <tr>
-                        <td>@cartItems.CartId                        </td>
                         <td>@cartItems.ProductName</td>
                         <td>@cartItems.Quantity</td>
                         <td>@cartItems.Price</td>                   
-              @*           <td>@cartItems.CartTotal</td> *@
+                        <td>@rowtotal.ToString()</td>
                         <td>
                             <!-- Delete form targeting the 'OnPostDelete' handler -->
                             <form method="post" asp-page-handler="Delete" asp-route-id="@cartItems.CartId">
