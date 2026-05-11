@@ -34,7 +34,7 @@ if (string.IsNullOrEmpty(emailJson))
 var emailSettings =
 JsonSerializer.Deserialize<EmailSettings>(emailJson);
 
-//builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<EmailService>();
 
 //Signleton for email 
 builder.Services.AddSingleton(emailSettings);
