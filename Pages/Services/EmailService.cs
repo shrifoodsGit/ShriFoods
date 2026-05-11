@@ -12,7 +12,8 @@ namespace ShriFoods.Pages.Services
 
         public EmailService(IOptions<EmailSettings> settings)
         {
-            _settings = settings.Value;
+            //var json = Environment.GetEnvironmentVariable("SMTP_CRED_JSON");
+            _settings = (EmailSettings?)settings;
         }
 
         public async Task SendOrderEmail(
