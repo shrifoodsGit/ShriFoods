@@ -8,13 +8,14 @@ namespace ShriFoods.Pages.Services
 {
     public class EmailService
     {
+        private readonly IConfiguration _config;
         private readonly EmailSettings _settings;
 
-        public EmailService(IOptions<EmailSettings> settings)
+        public EmailService(IConfiguration config, EmailSettings settings)
         {
-            _settings = settings.Value;
+            _config = config;
+            _settings = settings;
         }
-
         public async Task SendOrderEmail(
             string toEmail,
             string customerName,

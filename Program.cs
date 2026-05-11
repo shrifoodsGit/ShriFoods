@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
 using ShriFoods.Pages;
 using ShriFoods.Pages.Services;
-using System.Net;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +25,19 @@ builder.Services.AddSession(options =>
 });
 
 //Email Service 
-builder.Services.Configure<EmailSettings>(
-    (IConfiguration)builder.Configuration.AddEnvironmentVariables("SMTP_CRED_JSON"));
+var emailJson =
+builder.Configuration["EmailSettingsJson"];
+if (string.IsNullOrEmpty(emailJson))
+{
+    throw new Exception("EmailSettingsJson is missing in Azure App Settings");
+}
+var emailSettings =
+JsonSerializer.Deserialize<EmailSettings>(emailJson);
 
-builder.Services.AddScoped<EmailService>();
+//builder.Services.AddScoped<EmailService>();
+
+//Signleton for email 
+builder.Services.AddSingleton(emailSettings);
 
 
 //SmsService
