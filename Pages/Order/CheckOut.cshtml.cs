@@ -124,7 +124,7 @@ namespace ShriFoods.Pages.Order
             bind_OrderId = order.OrderId;
 
             //Delete from cart onceorder placed successfully 
-           // _dbContext.Cart.RemoveRange(cartItems); 
+            _dbContext.Cart.RemoveRange(cartItems); 
 
             await _dbContext.SaveChangesAsync(); 
             

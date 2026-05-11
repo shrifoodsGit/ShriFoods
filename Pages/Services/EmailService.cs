@@ -18,6 +18,7 @@ namespace ShriFoods.Pages.Services
         public async Task SendOrderEmail(
             string toEmail,
             string customerName,
+            string orderNumber,
             int orderId,
             decimal total)
         {
@@ -41,13 +42,13 @@ namespace ShriFoods.Pages.Services
                     <p>
                         <strong>Order ID:</strong> #{orderId}
                     </p>
-
+                     <p>
+                        <strong>Order ID:</strong> #{orderNumber}
+                    </p>
                     <p>
                         <strong>Total:</strong> ₹{total}
                     </p>
-
                     <br/>
-
                     <p>
                         Thanks for choosing Shri Suchi Foods.
                     </p>

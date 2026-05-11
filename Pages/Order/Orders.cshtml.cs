@@ -49,6 +49,7 @@ namespace ShriFoods.Pages.Order
             await _emailService.SendOrderEmail(
                     Order.UserEmail,
                     Order.UserFirstName,
+                    Order.OrderNumber,
                     Order.OrderId,
                     Order.TotalAmount);
 
