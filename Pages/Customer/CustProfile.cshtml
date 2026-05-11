@@ -188,17 +188,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var custOrders in Model.only_CartItemModel)
+                    @foreach (var custOrders in Model.only_NewOrderModel)
                     {
                         <tr>
-                            <td>@custOrders.CartId</td>
-                            <td>@custOrders.ProductUniqueId</td>
-                            <td>@custOrders.ProductName</td>
-                            <td>@custOrders.ProductPrice</td>
-                            <td>@custOrders.ProductQty</td> 
+                            <td>@custOrders.OrderId</td>
+                            <td>@custOrders.OrderNumber</td>
+                            <td>@custOrders.OrderedDate</td>
+                            <td>@custOrders.OrderDetails</td>
+                            <td>@custOrders.TotalAmount</td> 
                             <td>
                                 <!-- Delete form targeting the 'OnPostDelete' handler -->
-                                <form method="post" asp-page-handler="Delete" asp-route-id="@custOrders.CartId">
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@custOrders.OrderId">
                                     <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Are you sure you want to delete this?')">
                                         Delete
@@ -207,9 +207,6 @@
                             </td>
                             <td>
                                 <!----------------->
-                                <a asp-page="./Drivers/Edit" asp-route-id="@custOrders.CartId">
-                                    <button type="submit" class="btn btn-primary">Edit</button>
-                                </a>
                             </td>
                         </tr>
                     }
