@@ -26,7 +26,7 @@ builder.Services.AddSession(options =>
 
 //Email Service 
 builder.Services.Configure<EmailSettings>(
-    builder.Configuration.GetSection("SMTP_CRED_JSON"));
+    (IConfiguration)builder.Configuration.AddEnvironmentVariables("SMTP_CRED_JSON"));
 
 builder.Services.AddScoped<EmailService>();
 
