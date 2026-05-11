@@ -26,7 +26,7 @@ builder.Services.AddSession(options =>
 
 //Email Service 
 builder.Services.Configure<EmailSettings>(
-    builder.Configuration.GetSection("EmailSettings"));
+    builder.Configuration.GetSection("SMTP_CRED_JSON"));
 
 builder.Services.AddScoped<EmailService>();
 
@@ -38,7 +38,7 @@ builder.Services.AddScoped<SmsService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsProduction())
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
