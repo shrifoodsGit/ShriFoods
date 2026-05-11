@@ -10,8 +10,8 @@ namespace ShriFoods.Pages.Customer
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
-        public List<CartItemModel> list_CartItemModel = new List<CartItemModel>();
-        public List<CartItemModel> only_CartItemModel = new List<CartItemModel>();
+        public List<NewOrder> list_NewOrderModel = new List<NewOrder>();
+        public List<NewOrder> only_NewOrderModel = new List<NewOrder>();
 
         [BindProperty]
         public CartItemModel updateRecord { get; set; }
@@ -41,19 +41,19 @@ namespace ShriFoods.Pages.Customer
 
             }
 
-            ////cartItems list display   
-            //list_CartItemModel = _dbContext.CartItemTb.ToList();
-            //foreach (var cartItems in list_CartItemModel)
-            //{
+            //orderItems list display   
+            list_NewOrderModel = _dbContext.Orders.ToList();
+            foreach (var orderIems in list_NewOrderModel)
+            {
 
-            //    if (cartItems.ProductUniqueId ==session_UserUniqueId)
-            //    {
-            //        only_CartItemModel = list_CartItemModel.FindAll(a => a.ProductUniqueId == session_UserUniqueId);
-            //        //Major Milestone in achiving only wanted list out of selected index
-            //        //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
-            //    }
+                if (orderIems.UserFirstName ==session_UserName)
+                {
+                    only_NewOrderModel = list_NewOrderModel.FindAll(a => a.UserFirstName == session_UserName);
+                    //Major Milestone in achiving only wanted list out of selected index
+                    //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
+                }
 
-            //}
+            }
         }
 
         public IActionResult OnPostContshopping()

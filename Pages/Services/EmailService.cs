@@ -44,7 +44,7 @@ namespace ShriFoods.Pages.Services
                         <strong>Order ID:</strong> #{orderId}
                     </p>
                      <p>
-                        <strong>Order ID:</strong> #{orderNumber}
+                        <strong>Order Number:</strong> #{orderNumber}
                     </p>
                     <p>
                         <strong>Total:</strong> ₹{total}
