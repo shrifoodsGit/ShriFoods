@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace ShriFoods.Pages
 {
+    [OutputCache(Duration = 60)]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
@@ -31,16 +34,25 @@ namespace ShriFoods.Pages
             _dBContext = context;
             _env = env;
         }
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             //Creating a session variable 
             string userValue = HttpContext.Session.GetString("session_UserName");
 
-            listProductModel = _dBContext.ProductsTb.ToList();
+          
 
+            var products = await _dBContext.ProductsTb.
+                Select(p => new ProductModel
+                {
+                        ProductId = p.ProductId,
+                        ProductName = p.ProductName,
+                        ProductPrice = p.ProductPrice,
+                        ProductImagePath = p.ProductImagePath
+                    })
+                    .ToListAsync();
+            listProductModel = products;
 
-
-            //Pilling Images into list 
+            //Filling Images into list 
             string folderName = "img/Products/Atta/MultiGrain";
             string path = Path.Combine(_env.WebRootPath, folderName);
 

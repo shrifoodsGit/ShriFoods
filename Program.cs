@@ -11,6 +11,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddControllers();
 
+builder.Services.AddOutputCache();
+
 //Database connection string
 builder.Services.AddDbContext<FoodDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
@@ -24,7 +26,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential= true;
 });
 
-//Email Service 
+//--------------------Email Service------------------------------------------
 var emailJson =
 builder.Configuration["EmailSettingsJson"];
 if (string.IsNullOrEmpty(emailJson))
@@ -40,7 +42,7 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddSingleton(emailSettings);
 
 
-//SmsService
+//--------------------SmsService-----------------------------------------------
 builder.Services.AddScoped<SmsService>();
 
 
@@ -73,6 +75,7 @@ app.UseSession();
 //Number of Site visitors
 app.UseMiddleware<TrackingMiddleware>();
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -80,6 +83,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseHsts();
+app.UseOutputCache();
 app.MapRazorPages();
 app.MapRazorPages();
 

@@ -11,6 +11,7 @@ namespace ShriFoods.Pages.Admin
     public class UploadProductsModel : PageModel
     {
         private readonly FoodDbContext _dbContext;
+        private readonly IWebHostEnvironment _environment;
 
         [BindProperty]
         public int newProductId { get; set; }
@@ -21,20 +22,19 @@ namespace ShriFoods.Pages.Admin
         [BindProperty]
         public ProductModel NewProductModel { get; set; }
 
-        // Maps to VARBINARY(MAX) in SQL Server
-        [Column(TypeName = "varbinary(max)")]
-        public byte[] ImageData { get; set; }
 
-
+        [BindProperty]
+        public IFormFile ImageFile { get; set; }
 
         //Radom Number Generation
         private static readonly Random _random = new Random();
         public int UniqueNumber { get; set; }
 
         //Constructor 
-        public UploadProductsModel(FoodDbContext context)
+        public UploadProductsModel(FoodDbContext context, IWebHostEnvironment environment)
         {
             _dbContext = context;
+            _environment=environment;
         }
 
 
@@ -44,7 +44,7 @@ namespace ShriFoods.Pages.Admin
             //string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
         }
 
-        public async Task<IActionResult> OnPost(string selectedProductImage)
+        public async Task<IActionResult> OnPostAsync(string selectedProductImage)
         {
             //string session_userName = HttpContext.Session.GetString("session_UserName");
             //string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
@@ -56,23 +56,45 @@ namespace ShriFoods.Pages.Admin
             // Finds the max Id number and adds +1 to it 
             var newProductId = _dbContext.ProductsTb.Max(r => r.ProductId);
 
-
-            //Image storinging       
-            byte[] imageBytes = System.IO.File.ReadAllBytes(selectedProductImage);
-
-            //using (var ms = new MemoryStream())           
-            //{
-
-            //    await uploadingFIle.copy
-            //    imageData.Save(ms, imageData.RawFormat);
-            //    byte[] imageBytes = ms.ToArray();
-
-            //}
-
-            NewProductModel.ProductImage=imageBytes;
-
             // Finds the max Id number and adds +1 to it 
             NewProductModel.ProductId = newProductId+1;
+
+
+            //ImagePath Upload
+            if (ImageFile != null)
+            {
+                // Create uploads folder path
+                string uploadsFolder = Path.Combine(
+                    _environment.WebRootPath,
+                    "img/Products");
+
+                //// Create folder if not exists
+                //if (!Directory.Exists(uploadsFolder))
+                //{
+                //    Directory.CreateDirectory(uploadsFolder);
+                //}
+
+                // Unique filename
+                string uniqueFileName =
+                    Guid.NewGuid().ToString() +
+                    Path.GetExtension(ImageFile.FileName);
+
+                // Full file path
+                string filePath = Path.Combine(
+                    uploadsFolder,
+                    uniqueFileName);
+
+                // Save image
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(fileStream);
+                }
+
+                // Save image path in DB
+                NewProductModel.ProductImagePath =
+                    "/img/Products/" + uniqueFileName;
+            }
+
 
             _dbContext.ProductsTb.Add(NewProductModel);
 

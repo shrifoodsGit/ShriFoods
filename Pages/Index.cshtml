@@ -58,22 +58,10 @@
                                         </button>
                                     </div>
                                 }
-                                @*  @if (listproduct.ProductName == "Multigrain")
-                            {
-                                @foreach (var imageUrl in Model.AttaImageUrls)
+                               else
                                 {
-                                    <img src="@imageUrl" alt="Gallery Image" style="width: 200px; margin: 10px;" />
-                                }
-                            } *@else
-                                {
-                                    // Convert byte array to Base64 string
-                                    var ImageBase64 = Convert.ToBase64String(listproduct.ProductImage);
-                         
-                                    @if (!string.IsNullOrEmpty(ImageBase64))
-                                    {
-                                        <img src="data:image/jpeg;base64,@ImageBase64" alt="Database Image" width="200px" height="200px" />
-                                    }
-                                }
+                            <img src="@listproduct.ProductImagePath" class="img-fluid rounded" loading="lazy" alt="@listproduct.ProductName" />
+                                 }
 
                         <h3 >
                             <label style="font-weight:bold">@listproduct.ProductName</label>

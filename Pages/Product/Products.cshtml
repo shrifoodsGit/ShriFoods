@@ -26,14 +26,7 @@
                         </div>
                         <div class="row card-body">
                             <h6 class="col-6">
-                                @{
-                                    // Convert byte array to Base64 string
-                                    var ImageBase64 = Convert.ToBase64String(listproduct.ProductImage);
-                                }
-                                @if (!string.IsNullOrEmpty(ImageBase64))
-                                {
-                                    <img src="data:image/jpeg;base64,@ImageBase64" alt="Database Image" width="200px"  height="200px"/>
-                                }
+                                <img src="@listproduct.ProductImagePath" class="img-fluid rounded" loading="lazy" alt="@listproduct.ProductName" />
                              </h6>
                             <h5 class="col-3">  </h5>
                             <h5 class="col-3"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
