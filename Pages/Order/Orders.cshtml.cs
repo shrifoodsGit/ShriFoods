@@ -16,17 +16,22 @@ namespace ShriFoods.Pages.Order
     {
         private readonly FoodDbContext _dbContext;
         private readonly EmailService _emailService;
+        //private readonly WhatsAppService _whatsAppService;
         private readonly SmsService _smsService;
+        private readonly PdfService _pdfService;
+
         public List<NewOrder> Orders { get; set; } = new();
 
         [BindProperty]
         public NewOrder? Order { get; set; }
 
-        public OrdersModel(FoodDbContext context, EmailService emailService, SmsService smsService)
+        public OrdersModel(FoodDbContext context, EmailService emailService, SmsService smsService, PdfService pdfService)
         {
             _dbContext = context;
             _emailService= emailService;
             _smsService = smsService;
+           // _whatsAppService=whatsAppService;
+            _pdfService = pdfService;
         }
 
         private static IContainer CellStyle(IContainer container)
@@ -45,7 +50,7 @@ namespace ShriFoods.Pages.Order
 
             Orders = await GetOrders(Order.UserId);
 
-            //Send Email on successfull placing order
+            //Send Email on -successfull placing order
             await _emailService.SendOrderEmail(
                     Order.UserEmail,
                     Order.UserFirstName,
@@ -53,11 +58,25 @@ namespace ShriFoods.Pages.Order
                     Order.OrderId,
                     Order.TotalAmount);
 
-            //Send SMS successfull placing order
-            await _smsService.SendSms(
-                    Order.PhoneNumber,
-                    Order.UserFirstName,
-                    Order.OrderId);
+            //Send Email to Admin on successfully placing order
+            var pdfBytes =  _pdfService.GenerateOrderPdf(Order);  
+            await _emailService.SendOrderEmailWithPdf(
+                "shrifoodspb@gmail.com",
+                $"New Order #{Order.OrderId}",
+                "<h2>New Order Received</h2>",
+                pdfBytes);
+
+            // Send WhatsApp message-successfull placing order
+            //await _whatsAppService.SendOrderMessage(
+            //        Order.PhoneNumber,
+            //        Order.UserFirstName,
+            //        Order.OrderId,
+            //        Order.TotalAmount);
+            //Send SMS successfull-placing order
+            //await _smsService.SendSms(
+            //        Order.PhoneNumber,
+            //        Order.UserFirstName,
+            //        Order.OrderId);
 
             return Page();
         }
@@ -104,9 +123,9 @@ namespace ShriFoods.Pages.Order
                     {
                         column.Spacing(12);
 
-                        //column.Item().Text($"Customer: {order.CustomerName}");
+                        column.Item().Text($"Customer: {order.UserFirstName}");
                         column.Item().Text($"Phone: {order.PhoneNumber}");
-                        //column.Item().Text($"Email: {order.Email}");
+                        //column.Item().Text($"Email: {order.UserEmail}");
                         column.Item().Text($"Date: {order.OrderedDate:dd MMM yyyy hh:mm tt}");
                         column.Item().Text($"Status: {order.OrderStatus}");
 

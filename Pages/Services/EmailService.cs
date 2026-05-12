@@ -71,5 +71,49 @@ namespace ShriFoods.Pages.Services
 
             await client.DisconnectAsync(true);
         }
+
+
+        public async Task SendOrderEmailWithPdf(
+          string toEmail,
+          string subject,
+          string body,
+          byte[] pdfBytes)
+        {
+            var email = new MimeMessage();
+
+            email.From.Add(
+                MailboxAddress.Parse("orders@shrifoods.in"));
+
+            email.To.Add(
+                MailboxAddress.Parse(toEmail));
+
+            email.Subject = subject;
+
+            var builder = new BodyBuilder();
+
+            builder.HtmlBody = body;
+
+            builder.Attachments.Add(
+                "OrderInvoice.pdf",
+                pdfBytes,
+                ContentType.Parse("application/pdf"));
+
+            email.Body = builder.ToMessageBody();
+
+            using var smtp = new SmtpClient();
+
+            await smtp.ConnectAsync(
+                  _settings.Host,
+                  _settings.Port,
+                  false);
+
+            await smtp.AuthenticateAsync(
+                _settings.UserName,
+                _settings.Password);
+
+            await smtp.SendAsync(email);
+
+            await smtp.DisconnectAsync(true);
+        }
     }
 }
