@@ -22,9 +22,9 @@
                             <label for="age" class="form-label">Product Price:</label>
                             <input type="text" class="form-control" id="ProductPrice" name="ProductPrice" />
                         </div>
-                        <div class="mb-3">
-                            <label for="Product Image" class="form-label">Product Image:</label>
-                            <input type="file" class="form-control" id="ProductImage" name="selectedProductImage" accept="image/*" />
+                           <div class="mb-3">
+                            <label class="form-label fw-bold">Upload Product Image</label>
+                            <input type="file" asp-for="ImageFile"class="form-control" accept="image/*" />
                         </div>
                         <div class="mb-3">
                             <label for="age" class="form-label">Product Weight:</label>
