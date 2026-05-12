@@ -20,8 +20,6 @@ namespace ShriFoods.Pages.Order
         public List<NewCartModel> list_NewCartModel = new List<NewCartModel>();
         public List<NewCartModel> only_NewCartModel = new List<NewCartModel>();
 
-        public List<OrdersModel> list_OrdersModel = new List<OrdersModel>();
-        public List<OrdersModel> only_OrdersModel = new List<OrdersModel>();
 
         private static readonly Random _random = new Random();
         public int UniqueNumber { get; set; }

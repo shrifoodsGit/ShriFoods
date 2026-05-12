@@ -3,6 +3,7 @@ using ShriFoods.Model;
 using ShriFoods.Pages;
 using ShriFoods.Pages.Services;
 using System.Text.Json;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential= true;
 });
 
+
+
+
 //--------------------Email Service------------------------------------------
 var emailJson =
 builder.Configuration["EmailSettingsJson"];
@@ -45,6 +49,10 @@ builder.Services.AddSingleton(emailSettings);
 //--------------------SmsService-----------------------------------------------
 builder.Services.AddScoped<SmsService>();
 
+//---------Pdf Service--------------------------------------------------- 
+QuestPDF.Settings.License =
+    LicenseType.Community;
+builder.Services.AddScoped<PdfService>();
 
 var app = builder.Build();
 
