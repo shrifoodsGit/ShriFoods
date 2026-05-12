@@ -25,7 +25,7 @@ namespace ShriFoods.Pages.Services
                 container.Page(page =>
                 {
                     page.Margin(30);
-
+         
                     page.Header()
                         .Text($"Order Summary - #{order.OrderId}")
                         .FontSize(24)
@@ -34,12 +34,16 @@ namespace ShriFoods.Pages.Services
                     page.Content().Column(column =>
                     {
                         column.Spacing(12);
-
+                
                         column.Item().Text($"Customer: {order.UserFirstName}");
                         column.Item().Text($"Phone: {order.PhoneNumber}");
-                        column.Item().Text($"Email: {order.UserEmail}");
+                        column.Item().Text($"Address: {order.ShippingAddress}");
+                        column.Item().Text($"Order Number-#:{order.OrderNumber}");
                         column.Item().Text($"Date: {order.OrderedDate:dd MMM yyyy hh:mm tt}");
-                        column.Item().Text($"Status: {order.OrderStatus}");
+                        column.Item().Text($"Payment Status: {order.PaymentStatus}");
+                        column.Item().Text($"Payment Method: {order.PaymentMethod}");                
+  
+
 
                         column.Item().PaddingTop(10);
 

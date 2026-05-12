@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
 
 namespace ShriFoods.Pages.Admin
@@ -42,6 +43,31 @@ namespace ShriFoods.Pages.Admin
                 RedirectToPage("./SignIn");
             }
 
+        }
+
+        //If in future you admin wants to delete old orders/orders....dont delete untill unless needed to 
+        public async Task<IActionResult> OnPostDeleteAsync(int orderId)
+        {
+            // Get order details first
+            var orderDetails = await _dbContext.OrderDetails
+                .Where(x => x.OrderId == orderId)
+                .ToListAsync();
+
+            // Delete child rows
+            _dbContext.OrderDetails.RemoveRange(orderDetails);
+
+            // Get main order
+            var order = await _dbContext.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+
+            if (order != null)
+            {
+                _dbContext.Orders.Remove(order);
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return RedirectToPage("/AdminOrders");
         }
     }
 }

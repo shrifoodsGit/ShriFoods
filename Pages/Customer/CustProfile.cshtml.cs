@@ -60,5 +60,26 @@ namespace ShriFoods.Pages.Customer
         {
             return RedirectToPage("/Index");
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int orderid)
+        {
+            // 1. Find the record in your database
+            var rowToDelete = await _dbContext.Orders.FindAsync(orderid);
+
+            if (rowToDelete != null)
+            {
+                // 2. Remove the record
+                _dbContext.Orders.Remove(rowToDelete);
+
+                // 3. Save changes to persist the deletion
+                await _dbContext.SaveChangesAsync();
+            }
+
+            // 4. Redirect back to the current page to refresh the table
+            return RedirectToPage();
+        }
+
+ 
+  
     }
 }
