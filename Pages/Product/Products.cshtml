@@ -39,10 +39,8 @@
                                         <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
                                         <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
                                         <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
-                                    </div>
-                                  
-                                        <button type="submit" class="btn btn-primary">Add To Cart</button>
-                       
+                                    </div>                                  
+                                        <button type="submit" class="btn btn-primary">Add To Cart</button>                       
                                 </form>
                             </h5>
                             <h5 class="col-4">
@@ -52,6 +50,14 @@
                
                         </div>
                     </div>
+                    <div class="row">
+                        <h4>Product Description :</h4>
+                        <p>@listproduct.ProductDescription</p>
+                    </div>
+@*                     <div class="row">
+                        <h4>Available Weight :</h4>
+                        <p>@listproduct.ProductWeight</p>
+                    </div> *@
                 }
 
 
