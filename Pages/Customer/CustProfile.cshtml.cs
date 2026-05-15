@@ -13,8 +13,6 @@ namespace ShriFoods.Pages.Customer
         public List<NewOrder> list_NewOrderModel = new List<NewOrder>();
         public List<NewOrder> only_NewOrderModel = new List<NewOrder>();
 
-        [BindProperty]
-        public CartItemModel updateRecord { get; set; }
 
         //Constructor
         public CustProfileModel(FoodDbContext context)

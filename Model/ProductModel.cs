@@ -12,9 +12,12 @@ namespace ShriFoods.Model
 
         public string ProductUniqueId { get; set; }
         public string ProductName { get; set; }
+
+        // Product Variant
+        // Example: 500g, 1kg
+        public string ProductWeight { get; set; }
         public decimal ProductPrice { get; set; }
         public string ProductImagePath { get; set; }
-        public string ProductWeight { get; set; }
         public string ProductDescription { get; set; }
         public string ProductQty { get; set; }
         public string ProductRating { get; set; }

@@ -15,8 +15,6 @@ namespace ShriFoods.Pages.Cart
         public List<NewCartModel> list_CartModel = new List<NewCartModel>();
         public List<NewCartModel> only_CartModel = new List<NewCartModel>();
 
-        [BindProperty]
-        public CartItemModel updateCartRecord { get; set; }
 
         //Constructor
         public CartModel(FoodDbContext context)
@@ -45,6 +43,8 @@ namespace ShriFoods.Pages.Cart
             //    }
 
             //}
+
+           //ToDo-Make sure to handle empty/null cart its throwing error
 
             //cartItems list display   
             if (_dbContext.Cart.ToList()!=null) { 
