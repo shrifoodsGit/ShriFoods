@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShriFoods.Model;
+using System.Linq.Expressions;
 using System.Net;
 using System.Numerics;
 using Twilio.Types;
@@ -53,26 +54,32 @@ namespace ShriFoods.Pages.Order
             string session_UserName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
             string session_UserRole = HttpContext.Session.GetString("session_UserRole");
-
-
-            //cartItems list display   
-            if (_dbContext.Cart.ToList()!=null)
+            try
             {
-                list_NewCartModel = _dbContext.Cart.ToList();
-                foreach (var cartItems in list_NewCartModel)
-                {
-                    if (cartItems.UserId ==session_UserId.ToString())
-                    {
-                        //int total = (cartItems.CartTotal).Sum(n=>int.Parse(n));
-                        //grandTotal.Add(cartItems.);
-                        bind_UserId = int.Parse(cartItems.UserId);
-                        //int totL = (int.Parse(cartItems.CartTotal));
-                        only_NewCartModel = list_NewCartModel.FindAll(a => a.UserId == session_UserId.ToString());
 
+                //cartItems list display   
+                if (_dbContext.Cart.ToList()!=null)
+                {
+                    list_NewCartModel = _dbContext.Cart.ToList();
+                    foreach (var cartItems in list_NewCartModel)
+                    {
+                        if (cartItems.UserId ==session_UserId.ToString())
+                        {
+                            //int total = (cartItems.CartTotal).Sum(n=>int.Parse(n));
+                            //grandTotal.Add(cartItems.);
+                            bind_UserId = int.Parse(cartItems.UserId);
+                            //int totL = (int.Parse(cartItems.CartTotal));
+                            only_NewCartModel = list_NewCartModel.FindAll(a => a.UserId == session_UserId.ToString());
+
+                        }
                     }
+                    //Grand Total to display 
+                    //totL = grandTotal.Sum(n => int.Parse(n));
                 }
-                //Grand Total to display 
-                //totL = grandTotal.Sum(n => int.Parse(n));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error while Loading Checkout Items:"+ex.ToString());
             }
         }
 
@@ -114,6 +121,7 @@ namespace ShriFoods.Pages.Order
                     OrderId=order.OrderId,
                     ProductId=item.ProductId,
                     Quantity=item.Quantity,
+                    ProductWeight = item.ProductWeight,
                     UnitPrice=item.Price,
  
                     };

@@ -32,22 +32,41 @@
                             <h5 class="col-3"><i class="bi bi-currency-rupee"></i>@listproduct.ProductPrice</h5>
                         </div>
                         <div class="ride-row ride-card-footer">
-                            <h5 class="col-4">Ava Qty:  <label>@listproduct.ProductQty</label></h5>
-                            <h5 class="col-4" style="text-align:center">
+                            <h5 class="col-4">
                                 <form method="post" asp-route-id="@listproduct.ProductId">
-                                    <div class="quantity-selector">
-                                        <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
-                                        <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
-                                        <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
-                                    </div>                                  
-                                        <button type="submit" class="btn btn-primary">Add To Cart</button>                       
+
+                                    <!-- Product Weight -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Select Weight</label>
+
+                                        <select asp-for="lProductWeight" class="form-select">
+                                            <option value="500g">500g</option>
+                                            <option value="1kg">1kg</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Quantity</label>
+
+                                        <div class="quantity-selector">
+                                            <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
+                                            <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
+                                            <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add To Cart -->
+                                    <button type="submit" class="btn btn-success w-100">
+                                        Add To Cart
+                                    </button>
+
                                 </form>
                             </h5>
-                            <h5 class="col-4">
-                      
-                            </h5>
-
-               
+                            <h5 class="col-4">Stock Qty:  <label>@listproduct.ProductQty</label></h5>
+                            <h5 class="col-4" style="text-align:center">
+                             </h5>
+                             
                         </div>
                     </div>
                     <div class="row">

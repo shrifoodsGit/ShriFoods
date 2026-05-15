@@ -77,6 +77,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>Item</th>
+                    <th class="text-center">Weight</th>
                     <th class="text-center">Qty</th>
                     <th class="text-end">Price</th>
                     <th class="text-end">Total</th>
@@ -89,6 +90,9 @@
                 {
                     <tr>
                         <td>@item.Product?.ProductName</td>
+                        <td class="text-center">
+                            @item.ProductWeight
+                        </td>
 
                         <td class="text-center">
                             @item.Quantity

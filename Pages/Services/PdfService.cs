@@ -53,6 +53,7 @@ namespace ShriFoods.Pages.Services
                             {
                                 columns.RelativeColumn(4);
                                 columns.RelativeColumn(1);
+                                columns.RelativeColumn(1);
                                 columns.RelativeColumn(2);
                                 columns.RelativeColumn(2);
                             });
@@ -60,6 +61,7 @@ namespace ShriFoods.Pages.Services
                             table.Header(header =>
                             {
                                 header.Cell().Element(CellStyle).Text("Item").Bold();
+                                header.Cell().Element(CellStyle).Text("Weight").Bold();
                                 header.Cell().Element(CellStyle).Text("Qty").Bold();
                                 header.Cell().Element(CellStyle).Text("Price").Bold();
                                 header.Cell().Element(CellStyle).Text("Total").Bold();
@@ -68,6 +70,7 @@ namespace ShriFoods.Pages.Services
                             foreach (var item in order.OrderDetails)
                             {
                                 table.Cell().Element(CellStyle).Text(item.Product?.ProductName ?? "Product");
+                                table.Cell().Element(CellStyle).Text(item.ProductWeight.ToString());
                                 table.Cell().Element(CellStyle).Text(item.Quantity.ToString());
                                 table.Cell().Element(CellStyle).Text($"₹{item.UnitPrice:N2}");
                                 table.Cell().Element(CellStyle).Text($"₹{(item.Quantity * item.UnitPrice):N2}");

@@ -13,10 +13,7 @@ namespace ShriFoods.Pages.Product
         private readonly FoodDbContext _context;
         public List<ProductModel> listProductModel = new List<ProductModel>();
 
-        public List<CartItemModel> listCartItemModel = new List<CartItemModel>();
-
-        [BindProperty]
-        public CartItemModel newcartItemModel { get; set; }
+        public decimal weightPrice =0;
 
         [BindProperty]
         public NewCartModel lCart { get; set; }
@@ -29,6 +26,8 @@ namespace ShriFoods.Pages.Product
         [BindProperty]
         public int ItemQuantity { get; set; } = 1;
 
+        [BindProperty]
+       public string  lProductWeight { get; set; }
 
         //Constructor
         public ProductsModel(ILogger<ProductModel> logger, FoodDbContext newcontext)
@@ -85,13 +84,21 @@ namespace ShriFoods.Pages.Product
                         bool isTableEmpty = !_context.Cart.Any();
                         if (isTableEmpty)
                         {
+
+                            if(lProductWeight =="500g")
+                            {
+                                weightPrice = productSelected.ProductPrice/2;
+                            }
+                            else
+                            { weightPrice = productSelected.ProductPrice;}
                             NewCartModel cart = new NewCartModel
                             {
                                 UserId = session_UserId.ToString(),
                                 ProductId = id,
                                 Quantity = ItemQuantity,
-                                Price = productSelected.ProductPrice,
+                                Price = weightPrice,
                                 AddedDate = DateTime.Now,
+                                ProductWeight = lProductWeight,
                                 ProductName = productSelected.ProductName,
                                 Product =productSelected
                             };
@@ -99,18 +106,25 @@ namespace ShriFoods.Pages.Product
                         }
                         else
                         {
-                            if (existingCart != null)
+                            if (existingCart != null && existingCart.ProductWeight ==lProductWeight)
                             {
                                 existingCart.Quantity += 1;
                             }
                             else
                             {
+                                if (lProductWeight =="500g")
+                                {
+                                    weightPrice = productSelected.ProductPrice/2;
+                                }
+                                else
+                                { weightPrice = productSelected.ProductPrice; }
                                 NewCartModel cart = new NewCartModel
                                 {
                                     UserId = session_UserId.ToString(),
                                     ProductId = id,
+                                    ProductWeight = lProductWeight,
                                     Quantity = ItemQuantity,
-                                    Price = productSelected.ProductPrice,
+                                    Price = weightPrice,
                                     AddedDate = DateTime.Now,
                                     ProductName = productSelected.ProductName,
                                     Product =productSelected

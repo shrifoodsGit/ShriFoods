@@ -11,6 +11,7 @@
             <thead>
                 <tr class="table-hover">
                     <th scope="col">ProductName</th>
+                    <th scope="col">Weight</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Price</th>
                     <th scope="col">Total</th> 
@@ -23,6 +24,7 @@
 
                     <tr>
                         <td>@cartItems.ProductName</td>
+                        <td>@cartItems.ProductWeight</td>
                         <td>@cartItems.Quantity</td>
                         <td>@cartItems.Price</td>                   
                         <td>@rowtotal.ToString()</td>

@@ -13,6 +13,9 @@ namespace ShriFoods.Model
 
         public int ProductId { get; set; }
 
+        // 500g / 1kg
+        public string ProductWeight { get; set; }
+
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }
