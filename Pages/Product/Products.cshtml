@@ -38,12 +38,20 @@
                                     <!-- Product Weight -->
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Select Weight</label>
-
-                                        <select asp-for="lProductWeight" class="form-select">
-                                            <option value="500g">500g</option>
-                                            <option value="1kg">1kg</option>
-                                        </select>
-                                    </div>
+                                        @if (listproduct.ProductName == "Multigrain"||listproduct.ProductName == "Wheat FLour"||listproduct.ProductName == "Jowari"||listproduct.ProductName == "Bajra")
+                                            {
+                                                <select asp-for="lProductWeight" class="form-select">
+                                                    <option value="1kg">1kg</option>
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                <select asp-for="lProductWeight" class="form-select">
+                                                    <option value="500g">500g</option>
+                                                    <option value="1kg">1kg</option>
+                                                </select>
+                                            }
+                                        </div>
 
                                     <!-- Quantity -->
                                     <div class="mb-3">
@@ -63,8 +71,9 @@
 
                                 </form>
                             </h5>
-                            <h5 class="col-4">Stock Qty:  <label>@listproduct.ProductQty</label></h5>
-                            <h5 class="col-4" style="text-align:center">
+                            <h5 class="col-4"></h5>
+                            <h5 class="col-4" >
+                                Stock Qty:  <label>@listproduct.ProductQty</label>
                              </h5>
                              
                         </div>
