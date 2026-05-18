@@ -54,6 +54,20 @@ QuestPDF.Settings.License =
     LicenseType.Community;
 builder.Services.AddScoped<PdfService>();
 
+
+//-------------API Service------------------
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -84,11 +98,13 @@ app.UseSession();
 app.UseMiddleware<TrackingMiddleware>();
 
 
+app.UseCors("AllowAll");//Api service for App development 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.MapControllers();
 app.UseAuthorization();
 app.UseHsts();
 app.UseOutputCache();
