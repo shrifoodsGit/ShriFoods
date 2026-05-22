@@ -26,5 +26,10 @@ namespace ShriFoods.Pages.Helpers
 
             return result == PasswordVerificationResult.Success;
         }
+
+        public bool IsHashed(string password)
+        {
+            return password.StartsWith("AQAAAA");
+        }
     }
 }
