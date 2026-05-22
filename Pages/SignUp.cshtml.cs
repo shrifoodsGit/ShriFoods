@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
+using ShriFoods.Pages.Helpers;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
 
@@ -12,6 +13,7 @@ namespace ShriFoods.Pages
         private const string smsSent = "Success";
         private readonly FoodDbContext _dBContext;
         private readonly IConfiguration _config;
+     
 
         public PhoneVerify twilo;
         public List<UserModel> listUserModel = new List<UserModel>();
@@ -58,7 +60,11 @@ namespace ShriFoods.Pages
         //}
         public IActionResult OnPostUser()
         {
-
+            if (NewUserModel.UserPswd.Length < 8)
+            {
+                ViewData["Message"] = "Password must be minimum 8 characters";
+                return Page();
+            }
             // Returns true if NO data exists in the table
             bool isTableEmpty = !_dBContext.UserTb.Any();
             if (isTableEmpty)
@@ -75,6 +81,8 @@ namespace ShriFoods.Pages
             }
 
 
+            var passwordHelper = new PasswordHelper();
+            NewUserModel.UserPswd = passwordHelper.HashPassword(NewUserModel.UserPswd);
 
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
@@ -105,7 +113,6 @@ namespace ShriFoods.Pages
 
 
         }
-
 
     }
 }

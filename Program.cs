@@ -27,7 +27,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential= true;
 });
 
-
+//----------Cookies-------------------------
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
 
 
 //--------------------Email Service------------------------------------------
@@ -106,6 +111,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();
 app.UseAuthorization();
+app.UseHttpsRedirection();
 app.UseHsts();
 app.UseOutputCache();
 app.MapRazorPages();

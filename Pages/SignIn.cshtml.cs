@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriFoods.Model;
+using ShriFoods.Pages.Helpers;
 
 namespace ShriFoods.Pages
 {
@@ -20,14 +22,43 @@ namespace ShriFoods.Pages
         public void OnGet()
         {
         }
-
+      
+        
         public IActionResult OnPost(string InputEmail, string InputPswd)
         {
-            listUserModel = _dbContext.UserTb.ToList();
-            foreach (var user in listUserModel)
+            var passwordHelper = new PasswordHelper();
+            //listUserModel = _dbContext.UserTb.ToList();
+            var user = _dbContext.UserTb.FirstOrDefault(x => x.UserEmail == InputEmail);
+            bool loginSuccess = false;
+            if (user!=null)
             {
-                if (InputEmail==user.UserEmail && InputPswd == user.UserPswd)
+                if (passwordHelper.IsHashed(user.UserPswd))
                 {
+                     loginSuccess = passwordHelper.VerifyPassword(
+                        user.UserPswd,
+                        InputPswd
+                    );
+                }
+                else
+                {
+                    // OLD PLAIN TEXT USERS
+
+                    if (user.UserPswd == InputPswd)
+                    {
+                        loginSuccess = true;
+
+                        // AUTO CONVERT TO HASH
+
+                        user.UserPswd =
+                            passwordHelper.HashPassword(InputPswd);
+
+                        _dbContext.SaveChanges();
+                    }
+                }
+
+                if (loginSuccess)
+                    {
+                    // Login success
 
                     // Clears the session data if it holds any
                     HttpContext.Session.Clear();
@@ -51,8 +82,22 @@ namespace ShriFoods.Pages
                     }
                     return returnpage;
                 }
+                else
+                {
+                      ViewData["Message"] = "Enter the write Password";
+                      return Page();
+             
+                }
+     
             }
-            return RedirectToPage();
+            else
+            {
+                ViewData["Message"] = " Email ID doesn't exist--Please Sign Up";
+                return Page();
+                //return RedirectToPage("/SignUp");
+
+            }
+           
         }
     }
 }
