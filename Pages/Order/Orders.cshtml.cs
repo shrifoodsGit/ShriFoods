@@ -50,17 +50,31 @@ namespace ShriFoods.Pages.Order
 
             Orders = await GetOrders(Order.UserId);
 
-            //Send Email on -successfull placing order
-            await _emailService.SendOrderEmail(
-                    Order.UserEmail,
-                    Order.UserFirstName,
-                    Order.OrderNumber,
-                    Order.OrderId,
-                    Order.TotalAmount);
+            ////Send Email to Customer on -successfull placing order
+            //await _emailService.SendOrderEmail(
+            //        Order.UserEmail,
+            //        Order.UserFirstName,
+            //        Order.OrderNumber,
+            //        Order.OrderId,
+            //        Order.TotalAmount);
 
-            //Send Email to Admin on successfully placing order
-            var pdfBytes =  _pdfService.GenerateOrderPdf(Order);  
-            await _emailService.SendOrderEmailWithPdf(
+            var pdfBytes = _pdfService.GenerateOrderPdf(Order);
+
+            //Send Email to Customer on successfully placing order  
+            await _emailService.SendOrderEmailWithPdf_ToCustomer(
+           Order.UserEmail,
+           $"Order Confirmation #{Order.OrderId}",
+           $"<h2>Thank You #{Order.UserFirstName}</h2>\r\n  " +
+           $"<p>Your order has been placed successfully.</p>\r\n\r\n" +
+           $"<p>\r\n <strong>Order Number:</strong> #{Order.OrderNumber}\r\n</p>\r\n" +
+           $"<p>\r\n <strong>Total:</strong> ₹{Order.TotalAmount}\r\n</p>\r\n " +
+           $"<br/>\r\n  " +
+           $"<p>\r\nThanks for choosing Shri Suchi Foods.\r\n</p>",
+           pdfBytes);
+
+
+            //Send Email to Admin on successfully placing order          
+            await _emailService.SendOrderEmailWithPdf_ToAdmin(
                 "shrifoodspb@gmail.com",
                 $"New Order #{Order.OrderId}",
                 "<h2>New Order Received</h2>",
@@ -145,7 +159,7 @@ namespace ShriFoods.Pages.Order
                         table.Header(header =>
                         {
                             header.Cell().Element(CellStyle).Text("Item").Bold();
-                            header.Cell().Element(CellStyle).Text("Weight").Bold();
+                            header.Cell().Element(CellStyle).Text("Wgt").Bold();
                             header.Cell().Element(CellStyle).Text("Qty").Bold();
                             header.Cell().Element(CellStyle).Text("Price").Bold();
                             header.Cell().Element(CellStyle).Text("Total").Bold();

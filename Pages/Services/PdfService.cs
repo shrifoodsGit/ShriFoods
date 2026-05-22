@@ -61,7 +61,7 @@ namespace ShriFoods.Pages.Services
                             table.Header(header =>
                             {
                                 header.Cell().Element(CellStyle).Text("Item").Bold();
-                                header.Cell().Element(CellStyle).Text("Weight").Bold();
+                                header.Cell().Element(CellStyle).Text("Wgt").Bold();
                                 header.Cell().Element(CellStyle).Text("Qty").Bold();
                                 header.Cell().Element(CellStyle).Text("Price").Bold();
                                 header.Cell().Element(CellStyle).Text("Total").Bold();
