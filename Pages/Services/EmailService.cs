@@ -16,6 +16,8 @@ namespace ShriFoods.Pages.Services
             _config = config;
             _settings = settings;
         }
+
+        //Basic one 
         public async Task SendOrderEmail(
             string toEmail,
             string customerName,
@@ -72,8 +74,52 @@ namespace ShriFoods.Pages.Services
             await client.DisconnectAsync(true);
         }
 
+        //Send Email to Customer on successfully placing order  
+        public async Task SendOrderEmailWithPdf_ToCustomer(
+          string toEmail,
+          string subject,
+          string body,
+          byte[] pdfBytes)
+        {
+            var email = new MimeMessage();
 
-        public async Task SendOrderEmailWithPdf(
+            email.From.Add(
+                MailboxAddress.Parse("orders@shrifoods.in"));
+
+            email.To.Add(
+                MailboxAddress.Parse(toEmail));
+
+            email.Subject = subject;
+
+            var builder = new BodyBuilder();
+
+            builder.HtmlBody = body;
+
+            builder.Attachments.Add(
+                "OrderInvoice.pdf",
+                pdfBytes,
+                ContentType.Parse("application/pdf"));
+
+            email.Body = builder.ToMessageBody();
+
+            using var smtp = new SmtpClient();
+
+            await smtp.ConnectAsync(
+                  _settings.Host,
+                  _settings.Port,
+                  false);
+
+            await smtp.AuthenticateAsync(
+                _settings.UserName,
+                _settings.Password);
+
+            await smtp.SendAsync(email);
+
+            await smtp.DisconnectAsync(true);
+        }
+
+        //Send Email to Admin on successfully placing order  
+        public async Task SendOrderEmailWithPdf_ToAdmin(
           string toEmail,
           string subject,
           string body,

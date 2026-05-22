@@ -1,94 +1,145 @@
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using ShriFoods.Model;
 using ShriFoods.Pages;
 using ShriFoods.Pages.Services;
 using System.Text.Json;
-using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//--------------------------------------------------
+// Services
+//--------------------------------------------------
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllers();
 
 builder.Services.AddOutputCache();
 
-//Database connection string
-builder.Services.AddDbContext<FoodDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
+//--------------------------------------------------
+// Database
+//--------------------------------------------------
 
-//Session
-builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
+builder.Services.AddDbContext<FoodDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("AzureSqlConnection")));
+
+//--------------------------------------------------
+// Session
+//--------------------------------------------------
+
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(20);//Set Session timeout 
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential= true;
+
+    options.Cookie.IsEssential = true;
+
+    options.Cookie.SecurePolicy =
+        CookieSecurePolicy.Always;
 });
 
-//----------Cookies-------------------------
+//--------------------------------------------------
+// Secure Cookies
+//--------------------------------------------------
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+    options.Cookie.SecurePolicy =
+        CookieSecurePolicy.Always;
+
+    options.Cookie.SameSite =
+        SameSiteMode.Lax;
 });
 
+//--------------------------------------------------
+// Email Service
+//--------------------------------------------------
 
-//--------------------Email Service------------------------------------------
 var emailJson =
-builder.Configuration["EmailSettingsJson"];
-if (string.IsNullOrEmpty(emailJson))
+    builder.Configuration["EmailSettingsJson"];
+
+EmailSettings? emailSettings = null;
+
+if (!string.IsNullOrEmpty(emailJson))
 {
-    throw new Exception("EmailSettingsJson is missing in Azure App Settings");
+    emailSettings =
+        JsonSerializer.Deserialize<EmailSettings>(emailJson);
+
+    builder.Services.AddSingleton(emailSettings);
 }
-var emailSettings =
-JsonSerializer.Deserialize<EmailSettings>(emailJson);
 
 builder.Services.AddScoped<EmailService>();
 
-//Signleton for email 
-builder.Services.AddSingleton(emailSettings);
+//--------------------------------------------------
+// SMS Service
+//--------------------------------------------------
 
-
-//--------------------SmsService-----------------------------------------------
 builder.Services.AddScoped<SmsService>();
 
-//---------Pdf Service--------------------------------------------------- 
+//--------------------------------------------------
+// PDF Service
+//--------------------------------------------------
+
 QuestPDF.Settings.License =
     LicenseType.Community;
+
 builder.Services.AddScoped<PdfService>();
 
+//--------------------------------------------------
+// CORS Policy
+//--------------------------------------------------
 
-//-------------API Service------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy("AllowShriFoods",
         policy =>
         {
-            policy.AllowAnyOrigin()
+            policy.WithOrigins(
+                    "https://shrifoods.in",
+                    "https://www.shrifoods.in",
+                    "https://shrifoods-dgb4dhbbhpeud7gd.canadacentral-01.azurewebsites.net")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
 });
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//--------------------------------------------------
+// Production Error Handling
+//--------------------------------------------------
+
 if (!app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
     app.UseHsts();
 }
 
+//--------------------------------------------------
+// Security Headers
+//--------------------------------------------------
+
 app.Use(async (context, next) =>
 {
-    context.Response.Headers["X-Frame-Options"] = "DENY";
-    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
-    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
-    context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=()";
+    context.Response.Headers["X-Frame-Options"] =
+        "DENY";
+
+    context.Response.Headers["X-Content-Type-Options"] =
+        "nosniff";
+
+    context.Response.Headers["Referrer-Policy"] =
+        "strict-origin-when-cross-origin";
+
+    context.Response.Headers["Permissions-Policy"] =
+        "geolocation=(), microphone=()";
 
     context.Response.Headers["Content-Security-Policy"] =
         "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';";
@@ -96,25 +147,64 @@ app.Use(async (context, next) =>
     await next();
 });
 
-// Enable session middleware
-app.UseSession(); 
-
-//Number of Site visitors
-app.UseMiddleware<TrackingMiddleware>();
-
-
-app.UseCors("AllowAll");//Api service for App development 
+//--------------------------------------------------
+// HTTPS
+//--------------------------------------------------
 
 app.UseHttpsRedirection();
+
+//--------------------------------------------------
+// Static Files
+//--------------------------------------------------
+
 app.UseStaticFiles();
 
+//--------------------------------------------------
+// Routing
+//--------------------------------------------------
+
 app.UseRouting();
-app.MapControllers();
+
+//--------------------------------------------------
+// CORS
+//--------------------------------------------------
+
+app.UseCors("AllowShriFoods");
+
+//--------------------------------------------------
+// Session
+//--------------------------------------------------
+
+app.UseSession();
+
+//--------------------------------------------------
+// Visitor Tracking Middleware
+//--------------------------------------------------
+
+app.UseMiddleware<TrackingMiddleware>();
+
+//--------------------------------------------------
+// Authorization
+//--------------------------------------------------
+
 app.UseAuthorization();
-app.UseHttpsRedirection();
-app.UseHsts();
+
+//--------------------------------------------------
+// Output Cache
+//--------------------------------------------------
+
 app.UseOutputCache();
+
+//--------------------------------------------------
+// Controllers + Razor Pages
+//--------------------------------------------------
+
+app.MapControllers();
+
 app.MapRazorPages();
-app.MapRazorPages();
+
+//--------------------------------------------------
+// Run Application
+//--------------------------------------------------
 
 app.Run();
