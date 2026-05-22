@@ -115,5 +115,40 @@ namespace ShriFoods.Pages.Services
 
             await smtp.DisconnectAsync(true);
         }
+
+        public async Task SendOTPEmail(string email, string otp)
+        {
+            var mail = new MimeMessage();
+     
+
+            mail.From.Add(MailboxAddress.Parse("Otp@shrifoods.in"));
+
+            mail.To.Add(
+                MailboxAddress.Parse(email));
+
+            mail.Subject = "ShriFoods Password Reset OTP";
+
+            mail.Body =new TextPart("html")
+            {
+                Text = $@"
+                <p>Your OTP for password reset is: #{otp}</p>
+                <br />
+                <p>This OTP will expire in 10 minutes</p>
+                "
+            };
+
+            using var smtp = new SmtpClient();
+
+            await smtp.ConnectAsync(
+                  _settings.Host,
+                  _settings.Port,
+                  false);
+
+            await smtp.AuthenticateAsync(
+                _settings.UserName,
+                _settings.Password);
+            //smtp.EnableSsl = true;
+            await smtp.SendAsync(mail);
+        }
     }
 }

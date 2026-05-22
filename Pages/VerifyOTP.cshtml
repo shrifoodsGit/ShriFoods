@@ -1,0 +1,48 @@
+﻿@page
+@model ShriFoods.Pages.VerifyOTPModel
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h3 class="text-center mb-4">
+                    Verify OTP
+                </h3>
+
+                @if (ViewData["Message"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewData["Message"]
+                    </div>
+                }
+
+                <form method="post">
+
+                    <div class="mb-3">
+
+                        <label>Enter OTP</label>
+
+                        <input type="text"
+                               name="OTP"
+                               class="form-control"
+                               required />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-success w-100">
+                        Verify OTP
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
