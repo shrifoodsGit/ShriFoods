@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriFoods.Model;
+using ShriFoods.Pages.Helpers;
 
 namespace ShriFoods.Pages
 {
@@ -23,11 +24,22 @@ namespace ShriFoods.Pages
 
         public IActionResult OnPost(string InputEmail, string InputPswd)
         {
-            listUserModel = _dbContext.UserTb.ToList();
-            foreach (var user in listUserModel)
+            //listUserModel = _dbContext.UserTb.ToList();
+            var user = _dbContext.UserTb.FirstOrDefault(x => x.UserEmail == InputEmail);
+
+            if (user!=null)
             {
-                if (InputEmail==user.UserEmail && InputPswd == user.UserPswd)
-                {
+         
+                    var passwordHelper = new PasswordHelper();
+
+                    bool isValid = passwordHelper.VerifyPassword(
+                        user.UserPswd,
+                        InputPswd
+                    );
+
+                    if (isValid)
+                    {
+                    // Login success
 
                     // Clears the session data if it holds any
                     HttpContext.Session.Clear();
@@ -51,7 +63,52 @@ namespace ShriFoods.Pages
                     }
                     return returnpage;
                 }
+                else
+                {
+                      ViewData["Message"] = "Enter the write Password";
+                      return Page();
+             
+                }
+     
             }
+            else
+            {
+                ViewData["Message"] = " Email ID doesn't exist--Please Sign Up";
+                return Page();
+                //return RedirectToPage("/SignUp");
+
+            }
+            //foreach (var user in listUserModel)
+            //{
+            //    var passwordHelper = new PasswordHelper();
+            //    bool isValid = passwordHelper.VerifyPassword(user.UserPswd,InputPswd);
+
+            //    //if (InputEmail==user.UserEmail && InputPswd == user.UserPswd)
+            //    //{
+
+            //    //    // Clears the session data if it holds any
+            //    //    HttpContext.Session.Clear();
+
+            //    //    //Session Start, Creating a session variables 
+            //    //    HttpContext.Session.SetInt32("session_UserId", user.UserId);
+            //    //    HttpContext.Session.SetString("session_UserName", user.UserFirstName);
+            //    //    HttpContext.Session.SetString("session_UserUniqueId", user.UserUniqueId);
+            //    //    HttpContext.Session.SetString("session_UserContact", user.UserContact);
+            //    //    HttpContext.Session.SetString("session_UserEmail", user.UserEmail);
+            //    //    HttpContext.Session.SetString("session_UserRole", user.UserRole);
+
+            //    //    if (user.UserRole=="Cust")
+            //    //    {
+            //    //        //Signin Validated
+            //    //        returnpage= RedirectToPage("/Customer/CustProfile");
+            //    //    }
+            //    //    else if (user.UserRole=="Admin")
+            //    //    {
+            //    //        returnpage= RedirectToPage("/Admin/AdDashboard");
+            //    //    }
+            //    //    return returnpage;
+            //    //}
+            //}
             return RedirectToPage();
         }
     }
