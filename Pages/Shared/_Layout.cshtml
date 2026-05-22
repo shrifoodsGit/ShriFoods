@@ -61,30 +61,28 @@
                     {
                         Console.WriteLine("SessionVissible:"+username);
                         <script>
-                                                /*-SigOutButton---*/
-                                                document.getElementById("userName").style.visibility ="visible";
-                                                document.getElementById("UserprofileBtn").style.visibility ="visible";
-                                                 document.getElementById("cartBtn").style.visibility ="visible";
-                                                document.getElementById("signoutBtn").style.visibility ="visible";
 
-                                                /*--SigUpButton--& SignInButton-Hidden-*/
+                               
                                                 document.getElementById("signupBtn").style.visibility ="hidden";
                                                 document.getElementById("signinBtn").style.visibility ="hidden";
+                                                document.getElementById("userName").style.visibility ="visible";
+                                                document.getElementById("UserprofileBtn").style.visibility ="visible";
+                                                document.getElementById("cartBtn").style.visibility ="visible";
+                                                document.getElementById("signoutBtn").style.visibility ="visible";
+
                         </script>
                     }
                     else
                     {
                         Console.WriteLine("Session****:"+username);
                         <script>
-                                                /*-SigOutButton---*/
-                                                document.getElementById("signoutBtn").style.visibility ="hidden";
-                                                document.getElementById("UserprofileBtn").style.visibility ="hidden";
-                                                 document.getElementById("cartBtn").style.visibility ="hidden";
-                                                document.getElementById("userName").innerText = "Guest";
-
-                                                /*--SigUpButton---*/
+                                                document.getElementById("userName").innerText = "Guest";       
                                                 document.getElementById("signupBtn").style.visibility ="visible";
                                                 document.getElementById("signinBtn").style.visibility ="visible";
+                                                document.getElementById("signoutBtn").style.visibility ="hidden";
+                                                document.getElementById("UserprofileBtn").style.visibility ="hidden";
+                                                document.getElementById("cartBtn").style.visibility ="hidden";
+                                   
                         </script>
                     }
                   

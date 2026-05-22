@@ -28,5 +28,8 @@ namespace ShriFoods.Model
         public string? UserPswd { get; set; }
 
         public string? UserRole { get; set; }
+
+        public string? ResetOTP { get; set; }
+        public DateTime? OTPExpiry { get; set; }
     }
 }
