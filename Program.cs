@@ -23,7 +23,7 @@ builder.Services.AddOutputCache();
 
 builder.Services.AddDbContext<FoodDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("AzureSqlConnection")));
+        builder.Configuration.GetConnectionString("AzureSqlConnection1")));
 
 //--------------------------------------------------
 // Session
@@ -98,13 +98,10 @@ builder.Services.AddScoped<PdfService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowShriFoods",
+    options.AddPolicy("AllowAll",
         policy =>
         {
-            policy.WithOrigins(
-                    "https://shrifoods.in",
-                    "https://www.shrifoods.in",
-                    "https://shrifoods-dgb4dhbbhpeud7gd.canadacentral-01.azurewebsites.net")
+            policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -169,7 +166,7 @@ app.UseRouting();
 // CORS
 //--------------------------------------------------
 
-app.UseCors("AllowShriFoods");
+app.UseCors("AllowAll");//Api service for App development 
 
 //--------------------------------------------------
 // Session
