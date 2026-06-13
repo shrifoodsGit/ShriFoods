@@ -22,14 +22,14 @@ namespace ShriFoods.Controllers
             var products = await _context.ProductsTb.ToListAsync();
 
 
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 product.ProductImagePath =
 "https://shrifoods-dgb4dhbbhpeud7gd.canadacentral-01.azurewebsites.net"
 + product.ProductImagePath;
             }
 
-            
+
             return Ok(products);
         }
     }
